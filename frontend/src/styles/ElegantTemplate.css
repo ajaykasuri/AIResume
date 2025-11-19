@@ -1,0 +1,297 @@
+.elegant-root {
+  min-height: 100vh;
+  display: flex;
+  background: #f6f7f8;
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+.elegant-sidebar {
+  background: #fff;
+  color: #232323;
+  min-width: 300px;
+  max-width: 340px;
+  padding: 40px 30px;
+  border-right: 0.5px solid #ddd;
+  display: flex;
+  flex-direction: column;
+}
+.elegant-name {
+  font-size: 2.1rem;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+.elegant-role {
+  font-size: 1.2rem;
+  font-style: italic;
+  margin-bottom: 20px;
+  color: #444;
+}
+.elegant-contact {
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+.elegant-contact > div {
+  margin-bottom: 6px;
+  color: #3d5551;
+}
+hr {
+  border: none;
+  height: 1px;
+  background: #e1e1e1;
+  margin: 20px 0;
+}
+.elegant-section-title {
+  font-weight: 700;
+  font-family: 'Georgia', serif;
+  text-transform: none;
+  letter-spacing: 0.3px;
+  font-size: 1.11rem;
+  margin-bottom: 4px;
+  color: #22624b;
+}
+.elegant-section-text {
+  color: #444;
+  font-size: 0.97rem;
+}
+.elegant-list {
+  margin-left: 0;
+  padding-left: 16px;
+  margin-bottom: 0;
+}
+.elegant-main {
+  flex: 1;
+  background: #217f5e;
+  color: #fff;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.elegant-content {
+  padding: 45px 50px 45px 50px;
+  width: 100%;
+}
+.elegant-section {
+  margin-bottom: 18px;
+}
+.elegant-block {
+  margin-bottom: 14px;
+}
+.elegant-muted {
+  color: #cce4dd;
+  font-size: 1rem;
+  margin-bottom: 2px;
+  display: block;
+}
+.elegant-dates {
+  color: #aecfc6;
+  font-size: 0.92rem;
+  margin-bottom: 5px;
+}
+.elegant-main ul {
+  margin-left: 18px;
+  padding-left: 0;
+  font-size: 1rem;
+}
+.elegant-main li {
+  margin-bottom: 6px;
+}
+.elegant-block,       
+.elegant-content,     
+.elegant-section-text,
+.elegant-main,
+.elegant-section {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  .elegant-root {
+    flex-direction: column;
+  }
+  .elegant-main {
+    padding: 14px;
+  }
+  .elegant-sidebar {
+    border-right: none;
+    border-bottom: 1px solid #eee;
+    min-width: 0;
+    max-width: none;
+    width: 100vw;
+    padding: 22px 14px;
+  }
+  .elegant-content {
+    padding: 18px 18px;
+  }
+}
+/* Elegant Template - Word Export Styles */
+@media word-export {
+  .elegant-root {
+    display: block !important;
+    min-height: auto !important;
+  }
+  
+  .elegant-sidebar, .elegant-main {
+    display: block !important;
+    width: 100% !important;
+    float: none !important;
+  }
+  
+  .elegant-sidebar {
+    background: #ffffff !important;
+    color: #232323 !important;
+    border-right: 0.5px solid #dddddd !important;
+  }
+  
+  .elegant-main {
+    background: #217f5e !important;
+    color: #ffffff !important;
+  }
+  
+  .elegant-name {
+    color: #232323 !important;
+  }
+  
+  .elegant-role {
+    color: #444444 !important;
+  }
+  
+  .elegant-contact > div {
+    color: #3d5551 !important;
+  }
+  
+  .elegant-section-title {
+    color: #22624b !important;
+  }
+  
+  .elegant-section-text {
+    color: #444444 !important;
+  }
+  
+  .elegant-muted {
+    color: #cce4dd !important;
+  }
+  
+  .elegant-dates {
+    color: #aecfc6 !important;
+  }
+  .skilsStyle{
+    margin-left: 25px !important;
+  }
+}
+
+/* Print styles that help Word */
+@media print {
+  .elegant-sidebar {
+    background: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color: #232323 !important;
+  }
+  
+  .elegant-main {
+    background: #217f5e !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color: #ffffff !important;
+  }
+  
+  .elegant-name {
+    color: #232323 !important;
+  }
+  
+  .elegant-role {
+    color: #444444 !important;
+  }
+  
+  .elegant-contact > div {
+    color: #3d5551 !important;
+  }
+  
+  .elegant-section-title {
+    color: #22624b !important;
+  }
+}
+
+/* Fallback styles for Word */
+.elegant-root {
+  display: block;
+}
+
+.elegant-sidebar {
+  float: left;
+  width: 35%;
+  background: #ffffff;
+  color: #232323;
+  border-right: 0.5px solid #ddd;
+}
+
+.elegant-main {
+  float: left;
+  width: 65%;
+  background: #217f5e;
+  color: #ffffff;
+}
+
+.elegant-name {
+  color: #232323;
+}
+
+.elegant-role {
+  color: #444;
+}
+
+.elegant-contact > div {
+  color: #3d5551;
+}
+
+.elegant-section-title {
+  color: #22624b;
+}
+
+.elegant-section-text {
+  color: #444;
+}
+
+.elegant-muted {
+  color: #cce4dd;
+}
+
+.elegant-dates {
+  color: #aecfc6;
+}
+
+/* Ensure proper spacing in Word */
+.elegant-content {
+  box-sizing: border-box;
+}
+
+.elegant-block, .elegant-content, .elegant-section-text,
+.elegant-main, .elegant-section {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+/* -------- Word Export Fixes -------- */
+
+/* Bullet Fix */
+.elegant-main ul,
+.elegant-sidebar ul {
+  margin-left: 18px !important;
+  padding-left: 18px !important;
+  list-style-position: inside !important;
+}
+
+.elegant-main li,
+.elegant-sidebar li {
+  margin-bottom: 4px !important;
+  display: list-item !important;
+}
+
+/* Contact Table Fix */
+.elegant-contact-table,
+.elegant-contact-table tr,
+.elegant-contact-table td {
+  padding: 2px 0 !important;
+  margin: 0 !important;
+  line-height: 1.1 !important;
+  border: none !important;
+}

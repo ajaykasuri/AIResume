@@ -1,0 +1,236 @@
+/* Overlay & Modal Container */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(30, 41, 59, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0;}
+  to   { opacity: 1;}
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 36px rgba(30, 41, 59, 0.16);
+  width: 95%;
+  max-width: 530px;
+  max-height: 92vh;
+  overflow-y: auto;
+  position: relative;
+  animation: scaleIn 0.24s;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.96);}
+  to   { transform: scale(1);}
+}
+
+/* Modal Header & Footer */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem;
+  border-bottom: 1.5px solid #edeef2;
+  background: linear-gradient(90deg, #f3f4f6 70%, #e8eafc 100%);
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #2a3353;
+  letter-spacing: 0.03em;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-left: 1rem;
+  color: #7b809a;
+  transition: color 0.15s;
+}
+.modal-close:hover {
+  color: #276ef1;
+}
+
+/* Modal Body */
+.modal-body {
+  padding: 2rem 1.5rem 1.6rem 1.5rem;
+  background: #f7f8fa;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+}
+
+/* Modal Footer */
+.modal-footer {
+  padding: 1rem;
+  border-top: 1.5px solid #edeef2;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  background: #f3f4f6;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+}
+
+/* Form Fields */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+.mb-4 { margin-bottom: 1.35rem; }
+
+input[type="text"],
+input[type="number"],
+.react-datepicker__input-container input {
+  background: #f1f4fb;
+  border: 1.5px solid #d1d5db;
+  border-radius: 9px;
+  font-size: 1rem;
+  padding: 0.55rem 1rem;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  outline: none;
+  color: #1f2745;
+  margin-top: 4px;
+}
+input:focus,
+.react-datepicker__input-container input:focus {
+  border-color: #276ef1;
+  box-shadow: 0 0 0 2px #e8eafc;
+}
+
+/* Checkbox Custom Styles */
+input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  border: 2px solid #d1d5db;
+  background: #fff;
+  outline: none;
+  margin-right: 6px;
+  position: relative;
+  transition: border-color 0.20s;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #276ef1;
+  border-color: #276ef1;
+}
+input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px; top: 2px;
+  width: 6px; height: 9px;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(45deg);
+}
+
+/* Checkbox Label */
+label {
+  font-weight: 500;
+  color: #2a3353;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* Button Styles */
+.btn {
+  padding: 0.56rem 1.18rem;
+  border-radius: 7px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  font-weight: 590;
+  letter-spacing: 0.01em;
+  box-shadow: 0 2px 12px 0 rgba(39, 110, 241, 0.07);
+  transition: background-color 0.17s, box-shadow 0.17s;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg,#276ef1 70%,#5b94ff 100%);
+  color: #fff;
+  border: none;
+  font-weight: 800;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(90deg,#1656c1 70%,#4077d7 100%);
+}
+
+.btn-secondary {
+  background: #f7f8fa;
+  color: #333;
+  border: 1.5px solid #d1d5db;
+}
+
+.btn-secondary:hover {
+  background: #e7eaf1;
+  border-color: #276ef1;
+}
+
+/* DatePicker Custom */
+.react-datepicker-wrapper { width: 100%; }
+.react-datepicker__input-container input {
+  padding: 0.5rem 1rem;
+  border-radius: 7px;
+  border: 1.5px solid #d1d5db;
+  background: #f1f4fb;
+  transition: border-color 0.2s;
+  color: #1f2745;
+  font-size: 1rem;
+}
+.react-datepicker__input-container input:focus {
+  border-color: #276ef1;
+}
+
+/* ReactQuill Customization */
+.quill {
+  margin-bottom: 1rem;
+  border-radius: 9px;
+}
+.ql-toolbar {
+  border-top-left-radius: 9px;
+  border-top-right-radius: 9px;
+  background: #e8eafc;
+  padding: 6px 10px;
+}
+.ql-container {
+  min-height: 90px;
+  max-height: 150px;
+  background: #f1f4fb;
+  border-radius: 0 0 9px 9px;
+  padding: 6px 10px;
+}
+
+.text-right.text-sm.text-gray-500 {
+  margin-top: 2px;
+  font-size: 0.95em;
+  color: #797e8e;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  background: #e8eafc;
+  border-radius: 7px;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 7px;
+}
+

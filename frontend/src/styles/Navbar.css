@@ -1,0 +1,103 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  padding: 0.7rem 1.8rem;
+  background: #ffffff; /* solid white background */
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+  animation: navFade 0.6s ease;
+}
+
+/* Left section */
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Brand */
+.logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e4187; /* dark blue text */
+  letter-spacing: 0.5px;
+}
+.logo-sub {
+  color: #5db5d8; /* light blue accent */
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+/* Links */
+.nav-links {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.nav-link {
+  color: #1e4187; /* dark blue text for contrast */
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.nav-link:hover {
+  background: rgba(30, 65, 135, 0.1);
+  color: #0b2e7a;
+  transform: translateY(-1px);
+}
+
+.nav-link.active {
+  background: rgba(30, 65, 135, 0.15);
+  color: #0b2e7a;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Right section */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-greet {
+  color: #1e4187;
+  font-weight: 500;
+}
+
+.logout-btn {
+  background: #1e4187;
+  color: #ffffff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: #0b2e7a;
+  transform: translateY(-2px);
+}
+
+/* Smooth fade animation */
+@keyframes navFade {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

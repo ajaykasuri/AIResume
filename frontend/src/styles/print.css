@@ -1,0 +1,105 @@
+/* src/styles/print.css */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  /* 1. Hide everything except the resume */
+  body > *:not(#print-container),
+  .builder-header,
+  .builder-left,
+  #no-print,
+  .primary-btn,
+  .modal-overlay {
+    display: none !important;
+  }
+
+  /* 2. Make the resume fill the page */
+  #print-container {
+    display: block !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 210mm !important;
+    min-height: 297mm !important;
+    padding: 15mm !important;
+    background: white !important;
+    box-shadow: none !important;
+    transform: none !important;
+    page-break-after: always;
+  }
+
+  /* 3. Force colour printing */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 4. Two-column templates (Modern, Executive, Elegant) */
+  .modern-root,
+  .exec-root,
+  .elegant-root {
+    display: flex !important;
+    flex-direction: row !important;
+    width: 100% !important;
+  }
+
+  .modern-sidebar,
+  .exec-sidebar,
+  .elegant-sidebar {
+    width: 35% !important;
+    min-width: 35% !important;
+    padding: 25px !important;
+  }
+
+  .modern-main,
+  .exec-main,
+  .elegant-main {
+    width: 65% !important;
+    padding: 30px !important;
+  }
+
+  /* 5. Classic (full-width) */
+  .classic-template {
+    width: 100% !important;
+    padding: 20mm !important;
+  }
+
+  /* 6. Prevent breaking inside sections */
+  section, .ct-section, .elegant-section, .exec-section-main, .modern-section-main {
+    page-break-inside: avoid;
+  }
+}
+
+/* Hidden clone used for printing: visible only in print media */
+.print-only {
+  display: none !important;
+}
+
+@media print {
+  /* make the hidden clone visible for printing and ensure full content prints */
+  .print-only {
+    display: block !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 210mm !important;
+    min-height: 297mm !important;
+    padding: 15mm !important;
+    background: white !important;
+    z-index: 9999 !important;
+  }
+
+  .print-clone {
+    overflow: visible !important;
+    height: auto !important;
+    width: 100% !important;
+  }
+
+  /* ensure scrolling containers expand */
+  html, body, #root, .builder-right, #print-container {
+    height: auto !important;
+    overflow: visible !important;
+  }
+}

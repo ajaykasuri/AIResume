@@ -1,0 +1,217 @@
+.exec-root {
+  display: flex;
+  min-height: 100vh;
+  background: #f6f7f8;
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+.exec-sidebar {
+  background: #295040;
+  color: #fff;
+  min-width: 330px;
+  max-width: 370px;
+  padding: 44px 38px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.exec-name {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
+
+.exec-role {
+  font-size: 1.1rem;
+  font-style: italic;
+  margin-bottom: 30px;
+  color: #efeeef;
+}
+
+.exec-contact {
+  margin-bottom: 14px;
+  font-size: 1rem;
+}
+.exec-contact > div {
+  margin-bottom: 7px;
+}
+
+.exec-section-title {
+  font-weight: 700;
+  font-family: 'Georgia', serif;
+  font-size: 1.13rem;
+  border-bottom: 1px solid #4a6b5d;
+  margin-bottom: 7px;
+  color: #96ddbf;
+  padding-bottom: 2px;
+}
+
+.exec-section-text {
+  color: #ddeade;
+  font-size: 0.96rem;
+}
+
+.exec-edu-block {
+  margin-bottom: 12px;
+}
+.exec-muted {
+  color: #cfe1d7;
+  font-size: 0.97rem;
+  font-style: italic;
+}
+.exec-dates {
+  color: #b6d2c5;
+  font-size: 0.96rem;
+}
+
+.exec-list {
+  margin-left: 0;
+  padding-left: 15px;
+  margin-bottom: 0;
+}
+
+.exec-main {
+  flex: 1;
+  background: #fff;
+  color: #222;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.exec-content {
+  padding: 45px 55px 45px 55px;
+  width: 100%;
+}
+
+.exec-section-main {
+  margin-bottom: 20px;
+}
+.exec-section-main-title {
+  font-weight: bold;
+  font-size: 1.19rem;
+  color: #335d46;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #d2e1da;
+  padding-bottom: 2px;
+}
+hr {
+  border: none;
+  height: 1px;
+  background: #e1e1e1;
+  margin: 20px 0;
+}
+.exec-job-block {
+  margin-bottom: 18px;
+}
+.exec-job-meta {
+  color: #495659;
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+.exec-main ul {
+  margin-left: 16px;
+  font-size: 1rem;
+}
+.exec-main li {
+  margin-bottom: 8px;
+}
+
+@media (max-width: 900px) {
+  .exec-root {
+    flex-direction: column;
+  }
+  .exec-main {
+    padding: 14px;
+  }
+  .exec-sidebar {
+    border-right: none;
+    border-bottom: 1px solid #eee;
+    min-width: 0;
+    max-width: none;
+    width: 100vw;
+    padding: 22px 14px;
+    gap: 20px;
+  }
+  .exec-content {
+    padding: 18px 12px;
+  }
+}
+.exec-job-block, .exec-section-text, .exec-proj-block {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+/* Add this to your ExecutiveTemplate.css */
+@media word-export {
+  .exec-root {
+    display: block !important;
+  }
+  .exec-sidebar, .exec-main {
+    display: block !important;
+    width: 100% !important;
+    float: none !important;
+  }
+}
+
+/* Fallback styles for Word */
+.exec-root {
+  /* Add fallback for flex */
+  display: block;
+}
+
+.exec-sidebar {
+  float: left;
+  width: 35%;
+}
+
+.exec-main {
+  float: left;
+  width: 65%;
+}
+/* Ensure proper spacing and bullets in Word */
+ul, ol {
+  margin: 8px 0 !important;
+  padding-left: 24px !important;
+}
+
+li {
+  margin-bottom: 4px !important;
+  line-height: 1.4 !important;
+}
+
+/* Force bullet points in Word */
+ul li {
+  list-style-type: disc !important;
+}
+
+/* Section spacing */
+.ct-section, .modern-section, .exec-section, .elegant-section {
+  margin-bottom: 20px !important;
+}
+
+.ct-exp-block, .modern-job-block, .exec-job-block, .elegant-block {
+  margin-bottom: 16px !important;
+}
+
+/* Ensure proper line breaks and spacing */
+br {
+  display: block !important;
+  content: "" !important;
+  margin-top: 8px !important;
+}
+
+/* Profile section spacing */
+.ct-profile-text, .modern-section-text, .exec-section-text, .elegant-section-text {
+  line-height: 1.5 !important;
+  margin-bottom: 16px !important;
+}
+
+/* Skills section specific styling */
+.ct-section ul, .modern-section ul, .exec-section ul, .elegant-section ul {
+  margin: 12px 0 12px 20px !important;
+}
+
+.ct-section li, .modern-section li, .exec-section li, .exec-section li, .elegant-section li {
+  margin-bottom: 6px !important;
+}

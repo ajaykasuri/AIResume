@@ -1,0 +1,240 @@
+.mycvs-container {
+  padding: 40px;
+  background: #fdfdfd;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: #6b7280;
+  margin-bottom: 30px;
+}
+
+.resumes-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+/* ---------------- CREATE CARD ---------------- */
+.create-card {
+  width: 350px;
+  height: 350px;
+  border: 2px dashed #c4b5fd;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #6b21a8;
+  cursor: pointer;
+  background: #faf5ff;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.create-card:hover {
+  background: #f3e8ff;
+  transform: translateY(-4px);
+}
+
+.plus-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #a855f7;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+/* ---------------- RESUME CARD ---------------- */
+.resume-box {
+  width: 350px;
+  height: 350px;
+  background: #ecfdf5;
+  border-radius: 20px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.resume-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.resume-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  margin: 0 auto 10px auto;
+  color: #6b21a8;
+}
+
+.resume-box h3 {
+  text-align: center;
+  color: #111827;
+  margin-bottom: 5px;
+}
+
+.resume-box p {
+  text-align: center;
+  color: #6b7280;
+}
+
+.resume-tags {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.resume-tags button {
+  background: #f9fafb;
+  border: none;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  color: #4b5563;
+  cursor: default;
+}
+
+.resume-footer {
+  margin-top: auto;
+}
+
+.resume-meta small {
+  color: #6b7280;
+}
+
+.progress-bar {
+  background: #e5e7eb;
+  border-radius: 5px;
+  height: 6px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.progress-inner {
+  background: linear-gradient(90deg, #8b5cf6, #ec4899);
+  height: 100%;
+  width: 0%;
+}
+
+.progress-text {
+  font-size: 0.8rem;
+  text-align: right;
+  margin-top: 4px;
+  color: #6b7280;
+}
+
+/* ---------------- ACTION BUTTONS ---------------- */
+.resume-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Always show edit, hide delete by default */
+.edit-btn,
+.delete-btn {
+  background: white;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.delete-btn {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Show delete only when hovered */
+.resume-box:hover .delete-btn {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.edit-btn:hover {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.delete-btn:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.create-top-btn {
+  background: linear-gradient(90deg, #8b5cf6, #ec4899);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.create-top-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
+}
+.progress-bar {
+  background: #e5e7eb;
+  border-radius: 5px;
+  height: 8px;
+  margin-top: 10px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.progress-inner {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.5s ease, background 0.3s ease;
+}
+
+.progress-text {
+  font-size: 0.8rem;
+  text-align: right;
+  margin-top: 4px;
+  color: #6b7280;
+}

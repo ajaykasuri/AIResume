@@ -1,0 +1,7 @@
+
+CHANGELOG - Final implementation
+- Implemented @dnd-kit based drag-and-drop reordering of sections in Builder.
+- Templates modified to accept `sectionsOrder` prop and render sections accordingly.
+- Fixed printing via useReactToPrint + hidden print clone; added print CSS fixes.
+- Added sample resume (frontend/src/sample-data/sample-resume.json) and auto-load in Builder if empty.
+- Minor UI & responsive CSS tweaks and drag-handle styling.

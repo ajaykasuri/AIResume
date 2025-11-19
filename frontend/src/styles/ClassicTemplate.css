@@ -1,0 +1,233 @@
+.classic-template {
+  max-width: 700px;
+  background: #fff;
+  color: #222;
+  padding: 32px 40px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 16px;
+  margin: 0 auto;
+  border-radius: 7px;
+}
+  .ct-header {
+    text-align: center;
+    padding: 20px 0;
+  }
+  
+  /* Styling for the name */
+  .ct-header h1 {
+    font-size: 2.5em;
+    margin: 0;
+    font-family: sans-serif; 
+  }
+
+  /* Styling for the contact info container */
+  .ct-contact {
+    font-family: sans-serif;
+    font-size: 0.9em;
+    color: #555; /* Muted color for secondary info */
+  }
+
+  /* Styling for the separators */
+  .ct-contact span:not(:last-child) {
+    /* The space around the bullet points */
+    margin: 0 5px;
+  }
+  
+  .ct-header hr {
+    border: none;
+    height: 1px;
+    background-color: #ddd;
+    margin: 20px 0 0;
+  }
+.ct-section-title {
+  font-weight: 600;
+  font-size: 1.1em;
+  letter-spacing: .8px;
+  margin-bottom: 6px;
+  margin-top: 20px;
+  width: 100%;
+}
+.ct-profile-text {
+  margin-left: 1.2em;
+  color: #222;
+}
+.ct-exp-block {
+  margin-bottom: 14px;
+  padding-left: 1.2em;
+}
+.ct-flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+.ct-dates {
+  font-size: 0.97em;
+  color: #444;
+}
+.ct-muted {
+  color: #666;
+  font-size: 0.98em;
+  margin-bottom: 4px;
+}
+
+.ct-section ul {
+  margin: 0 0 14px 20px;
+  padding: 0;
+}
+.ct-section li {
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+hr {
+  margin: 20px 0 14px;
+  border: none;
+  border-top: 1px solid #bbb;
+}
+.ct-section, .ct-exp-block, .ct-proj-block, .ct-profile-text {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+@media word-export {
+  .classic-template {
+    display: block !important;
+    max-width: 100% !important;
+    background: #ffffff !important;
+    color: #222222 !important;
+  }
+  
+  .ct-header h1 {
+    color: #222222 !important;
+  }
+  
+  .ct-contact {
+    color: #555555 !important;
+  }
+  
+  .ct-contact span {
+    color: #555555 !important;
+  }
+  
+  .ct-section-title {
+    color: #222222 !important;
+  }
+  
+  .ct-profile-text {
+    color: #222222 !important;
+  }
+  
+  .ct-dates {
+    color: #444444 !important;
+  }
+  
+  .ct-muted {
+    color: #666666 !important;
+  }
+  
+  hr {
+    border-top-color: #bbbbbb !important;
+  }
+  
+  /* Layout fixes for Word */
+  .ct-flex-between {
+    display: table !important;
+    width: 100% !important;
+  }
+  
+  .ct-flex-between strong,
+  .ct-flex-between .ct-dates {
+    display: table-cell !important;
+    vertical-align: top !important;
+  }
+  
+  .ct-flex-between .ct-dates {
+    text-align: right !important;
+    width: 30% !important;
+  }
+}
+
+/* Print styles that help Word */
+@media print {
+  .classic-template {
+    background: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color: #222222 !important;
+  }
+  
+  .ct-header h1 {
+    color: #222222 !important;
+  }
+  
+  .ct-contact {
+    color: #555555 !important;
+  }
+  
+  .ct-section-title {
+    color: #222222 !important;
+  }
+  
+  .ct-profile-text {
+    color: #222222 !important;
+  }
+  
+  .ct-dates {
+    color: #444444 !important;
+  }
+  
+  .ct-muted {
+    color: #666666 !important;
+  }
+  
+  hr {
+    border-top-color: #bbbbbb !important;
+  }
+}
+
+/* Fallback styles for Word */
+.classic-template {
+  background: #ffffff;
+  color: #222222;
+}
+
+.ct-header h1 {
+  color: #222222;
+}
+
+.ct-contact {
+  color: #555555;
+}
+
+.ct-contact span {
+  color: #555555;
+}
+
+.ct-section-title {
+  color: #222222;
+}
+
+.ct-profile-text {
+  color: #222222;
+}
+
+.ct-dates {
+  color: #444444;
+}
+
+.ct-muted {
+  color: #666666;
+}
+
+hr {
+  border-top-color: #bbb;
+}
+
+/* Ensure proper spacing in Word */
+.ct-section, .ct-exp-block, .ct-proj-block, .ct-profile-text {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* Table-based layout for flex-between in Word */
+.ct-flex-between {
+  width: 100%;
+}

@@ -1,0 +1,77 @@
+{
+  "title": "Sample Resume - John Doe",
+  "templateId": 2,
+  "template": "modern",
+  "sectionsOrder": [
+    "basics",
+    "personal",
+    "skills",
+    "experience",
+    "projects",
+    "education",
+    "declaration"
+  ],
+  "data": {
+    "basics": {
+      "name": "John Doe",
+      "jobTitle": "Software Engineer",
+      "email": "john.doe@example.com",
+      "phone": "+91 98765 43210",
+      "city": "Bengaluru",
+      "country": "India",
+      "linkedIn": "linkedin.com/in/johndoe",
+      "github": "github.com/johndoe",
+      "website": "johndoe.dev"
+    },
+    "personalStatement": "Passionate software engineer with 5+ years building web and mobile applications.",
+    "skills": [
+      "JavaScript",
+      "React",
+      "Node.js",
+      "SQL",
+      "Docker"
+    ],
+    "experience": [
+      {
+        "id": 1,
+        "title": "Senior Developer",
+        "employer": "Acme Corp",
+        "from": "2021-01-01",
+        "to": "2024-06-01",
+        "current": false,
+        "summary": "Led frontend team."
+      },
+      {
+        "id": 2,
+        "title": "Software Engineer",
+        "employer": "Beta Ltd",
+        "from": "2018-06-01",
+        "to": "2020-12-31",
+        "current": false,
+        "summary": "Built APIs and services."
+      }
+    ],
+    "projects": [
+      {
+        "id": 1,
+        "title": "Resume Builder",
+        "link": "https://example.com",
+        "summary": "A resume builder app."
+      }
+    ],
+    "education": [
+      {
+        "id": 1,
+        "degree": "B.Tech Computer Science",
+        "institution": "ABC University",
+        "from": "2014-06-01",
+        "to": "2018-05-01",
+        "current": false
+      }
+    ],
+    "declaration": {
+      "description": "I hereby declare that the information is true.",
+      "signature": "John Doe"
+    }
+  }
+}

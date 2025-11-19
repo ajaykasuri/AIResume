@@ -1,0 +1,248 @@
+.modern-root {
+  display: flex;
+  min-height: 100vh;
+  background: #fff;
+  font-family: 'Inter', 'Arial', sans-serif;
+  color: #161616;
+}
+.modern-sidebar {
+  min-width: 310px;
+  max-width: 350px;
+  padding: 48px 28px 48px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.modern-name {
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+.modern-role {
+  font-size: 1.22rem;
+  color: #434343;
+  margin-bottom: 25px;
+}
+.modern-contact > div {
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+.modern-section-title {
+  font-weight: bold;
+  font-size: 1.08rem;
+  border-bottom: 1px solid #e0e0e0;
+  color: #212121;
+  margin-bottom: 8px;
+  padding-bottom: 2px;
+}
+.modern-section-text {
+  color: #222;
+  font-size: 1.03rem;
+}
+.modern-section {
+  margin-bottom: 17px;
+}
+.modern-edu-block {
+  margin-bottom: 12px;
+}
+.modern-muted {
+  color: #7d7d7d;
+  font-size: 1rem;
+}
+.modern-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+.modern-content {
+  padding: 56px 46px 56px 36px;
+  width: 100%;
+}
+.modern-section-main-title {
+  font-weight: bold;
+  font-size: 1.13rem;
+  color: #232323;
+  border-bottom: 1px solid #e1e1e1;
+  margin-bottom: 6px;
+  padding-bottom: 2px;
+}
+.modern-section-main {
+  margin-bottom: 21px;
+}
+.modern-job-block {
+  margin-bottom: 24px;
+}
+ul {
+  margin-left: 18px;
+  padding-left: 0;
+  font-size: 1rem;
+}
+li {
+  margin-bottom: 7px;
+}
+@media (max-width: 900px) {
+  .modern-root {
+    flex-direction: column;
+  }
+  .modern-sidebar {
+    min-width: 0;
+    max-width: none;
+    width: 100vw;
+    padding: 18px;
+  }
+  .modern-content {
+    padding: 18px 8px;
+  }
+}
+/* Modern Template - Word Export Styles */
+@media word-export {
+  .modern-root {
+    display: block !important;
+    min-height: auto !important;
+    background: #ffffff !important;
+  }
+  
+  .modern-sidebar, .modern-main {
+    display: block !important;
+    width: 100% !important;
+    float: none !important;
+  }
+  
+  .modern-sidebar {
+    background: #ffffff !important;
+    color: #161616 !important;
+  }
+  
+  .modern-main {
+    background: #ffffff !important;
+    color: #161616 !important;
+  }
+  
+  .modern-name {
+    color: #161616 !important;
+  }
+  
+  .modern-role {
+    color: #434343 !important;
+  }
+  
+  .modern-contact > div {
+    color: #161616 !important;
+  }
+  
+  .modern-section-title {
+    color: #212121 !important;
+    border-bottom-color: #e0e0e0 !important;
+  }
+  
+  .modern-section-text {
+    color: #222222 !important;
+  }
+  
+  .modern-section-main-title {
+    color: #232323 !important;
+    border-bottom-color: #e1e1e1 !important;
+  }
+  
+  .modern-muted {
+    color: #7d7d7d !important;
+  }
+}
+
+/* Print styles that help Word */
+@media print {
+  .modern-sidebar {
+    background: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color: #161616 !important;
+  }
+  
+  .modern-main {
+    background: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color: #161616 !important;
+  }
+  
+  .modern-name {
+    color: #161616 !important;
+  }
+  
+  .modern-role {
+    color: #434343 !important;
+  }
+  
+  .modern-section-title {
+    color: #212121 !important;
+    border-bottom-color: #e0e0e0 !important;
+  }
+  
+  .modern-section-main-title {
+    color: #232323 !important;
+    border-bottom-color: #e1e1e1 !important;
+  }
+}
+
+/* Fallback styles for Word */
+.modern-root {
+  display: block;
+  background: #ffffff;
+}
+
+.modern-sidebar {
+  float: left;
+  width: 35%;
+  background: #ffffff;
+  color: #161616;
+}
+
+.modern-main {
+  float: left;
+  width: 65%;
+  background: #ffffff;
+  color: #161616;
+}
+
+.modern-name {
+  color: #161616;
+}
+
+.modern-role {
+  color: #434343;
+}
+
+.modern-contact > div {
+  color: #161616;
+}
+
+.modern-section-title {
+  color: #212121;
+  border-bottom-color: #e0e0e0;
+}
+
+.modern-section-text {
+  color: #222222;
+}
+
+.modern-section-main-title {
+  color: #232323;
+  border-bottom-color: #e1e1e1;
+}
+
+.modern-muted {
+  color: #7d7d7d;
+}
+
+/* Ensure proper spacing in Word */
+.modern-content {
+  box-sizing: border-box;
+}
+
+.modern-job-block, .modern-project-block, .modern-section-text,
+.modern-main, .modern-section-main {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}

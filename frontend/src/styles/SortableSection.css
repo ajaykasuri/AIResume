@@ -1,0 +1,21 @@
+.sortable-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  /* border: 1px solid #ddd;
+  margin-bottom: 4px; */
+  background-color: #fff;
+  cursor: move;
+}
+
+.drag-handle {
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  user-select: none;
+  font-weight: bold;
+  color: #888;
+}
+.sortable-content:{
+
+}

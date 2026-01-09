@@ -243,7 +243,7 @@ exports.updateResume = async (req, res) => {
     const { completion_percentage, template_id } = req.body;
     const { resumeId } = req.params;
 
-    console.log("Updating resume:", resumeId);
+    // console.log("Updating resume:", resumeId);
 
     const [result] = await pool.query(
       `UPDATE rb_Resumes 

@@ -20,7 +20,7 @@ export default function TemplateModal({
   selectedTemplate,
   previewTemplate,
   onTemplateSelect,
-  onApplyTemplate
+  onApplyTemplate,
 }) {
   if (!show) return null;
 
@@ -29,10 +29,7 @@ export default function TemplateModal({
       <div className="template-modal-container">
         <div className="template-modal-header">
           <h2>🎨 Choose Template</h2>
-          <button
-            className="template-modal-close-btn"
-            onClick={onClose}
-          >
+          <button className="template-modal-close-btn" onClick={onClose}>
             <FaTimes />
           </button>
         </div>
@@ -49,7 +46,9 @@ export default function TemplateModal({
                   <div
                     key={template.id}
                     className={`template-option-card ${
-                      selectedTemplate === template.id ? "template-option-selected" : ""
+                      selectedTemplate === template.id
+                        ? "template-option-selected"
+                        : ""
                     }`}
                     onClick={() => onTemplateSelect(template.id)}
                   >
@@ -80,10 +79,12 @@ export default function TemplateModal({
                   {previewTemplate ? (
                     <img
                       src={
-                        templateOptions.find((t) => t.id === previewTemplate)?.img
+                        templateOptions.find((t) => t.id === previewTemplate)
+                          ?.img
                       }
                       alt={`${
-                        templateOptions.find((t) => t.id === previewTemplate)?.name
+                        templateOptions.find((t) => t.id === previewTemplate)
+                          ?.name
                       } Preview`}
                       className="template-preview-image"
                     />
@@ -99,16 +100,13 @@ export default function TemplateModal({
         </div>
 
         <div className="template-modal-footer">
-          <button
-            className="template-cancel-btn"
-            onClick={onClose}
-          >
+          <button className="template-cancel-btn" onClick={onClose}>
             Cancel
           </button>
           <button
             className="template-apply-btn"
             onClick={onApplyTemplate}
-            disabled={!selectedTemplate}
+            disabled={!previewTemplate}
           >
             Apply Template
           </button>

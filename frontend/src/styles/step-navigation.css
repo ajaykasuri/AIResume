@@ -1,0 +1,59 @@
+.step-navigation {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    z-index: 20;
+}
+
+/* Base button styles */
+.step-navigation button {
+    flex: 1;
+    height: 42px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Back button */
+.step-navigation button:first-child {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.step-navigation button:first-child:hover:not(:disabled) {
+    background: #e5e7eb;
+}
+
+/* Save button */
+.step-navigation button:nth-child(2) {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.step-navigation button:nth-child(2):hover:not(:disabled) {
+    background: #1d4ed8;
+}
+
+/* Next button */
+.step-navigation button:last-child {
+    background: #10b981;
+    color: #ffffff;
+}
+
+.step-navigation button:last-child:hover:not(:disabled) {
+    background: #059669;
+}
+
+/* Disabled state */
+.step-navigation button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

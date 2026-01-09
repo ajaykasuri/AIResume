@@ -55,7 +55,7 @@ export const sectionAPI = {
   save: (resumeId, section, items) =>
     api.post(`/resumes/${resumeId}/${section}`, items),
   bulkSave: (resumeId, sectionsData) =>
-    api.put(`/resumes/${resumeId}`, sectionsData),
+    api.put(`/resumes/${resumeId}/bulk-save`, sectionsData),
   deleteItem: (resumeId, section, itemId) =>
     api.delete(`/resumes/${resumeId}/${section}/${itemId}`),
 };

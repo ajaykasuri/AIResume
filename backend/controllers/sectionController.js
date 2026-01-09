@@ -38,7 +38,7 @@ exports.bulkSaveSections = async (req, res) => {
     const { resumeId } = req.params;
     const sectionsData = req.body; // { skills: [...], experience: [...], ... }
     const result = await sectionService.bulkSave(resumeId, sectionsData);
-    // console.log("Bulk Save Result:", result);
+   
     res.json(result);
   } catch (err) {
     console.error("Bulk Save Error:", err);

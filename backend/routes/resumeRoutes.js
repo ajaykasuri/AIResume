@@ -52,6 +52,6 @@ sections.forEach((section) => {
 });
 
 // Bulk save
-router.put("/:resumeId", sectionController.bulkSaveSections);
+router.put("/:resumeId/bulk-save", sectionController.bulkSaveSections);
 
 module.exports = router;

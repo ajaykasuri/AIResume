@@ -63,15 +63,13 @@ const quillFormats = [
 ];
 
 // Basics Form with country dropdown
-export function BasicsForm({ resume, updateSection, validationErrors = {} }) {
-  //  SAFE destructuring
-  const basics = resume?.basics || {};
-  console.log("Rendering BasicsForm with basics:", basics);
+// Basics Form with country dropdown and validation
+export function BasicsForm({ resume, updateBasics, validationErrors }) {
+  const { basics } = resume.data;
+
+  // Handle input change with validation
   const handleInputChange = (field, value) => {
-    updateSection("basics", {
-      ...basics,
-      [field]: value,
-    });
+    updateBasics(field, value);
   };
 
   return (
@@ -88,35 +86,39 @@ export function BasicsForm({ resume, updateSection, validationErrors = {} }) {
           <label>Full Name *</label>
           <input
             type="text"
-            value={basics.full_name || ""}
-            onChange={(e) => handleInputChange("full_name", e.target.value)}
+            value={basics.name}
+            onChange={(e) => handleInputChange("name", e.target.value)}
             placeholder="John Doe"
+            className={!basics.name ? "input-error" : ""}
           />
+          {!basics.name && <span className="error-text">Name is required</span>}
         </div>
 
         <div className="form-group">
           <label>Job Title *</label>
           <input
             type="text"
-            value={basics.job_title || ""}
-            onChange={(e) => handleInputChange("job_title", e.target.value)}
+            value={basics.jobTitle}
+            onChange={(e) => handleInputChange("jobTitle", e.target.value)}
             placeholder="Software Engineer"
+            className={!basics.jobTitle ? "input-error" : ""}
           />
+          {!basics.jobTitle && (
+            <span className="error-text">Job title is required</span>
+          )}
         </div>
 
         <div className="form-group">
           <label>Email *</label>
           <input
             type="email"
-            value={basics.email || ""}
+            value={basics.email}
             onChange={(e) => handleInputChange("email", e.target.value)}
             placeholder="john@example.com"
-            className={validationErrors.email ? "input-error" : ""}
+            className={validationErrors?.email ? "input-error" : ""}
           />
-          {validationErrors.email && (
-            <span className="error-text">
-              Please enter a valid email address
-            </span>
+          {validationErrors?.email && (
+            <span className="error-text">Please enter a valid email address</span>
           )}
         </div>
 
@@ -124,14 +126,14 @@ export function BasicsForm({ resume, updateSection, validationErrors = {} }) {
           <label>Phone *</label>
           <input
             type="tel"
-            value={basics.phone_number || ""}
-            onChange={(e) => handleInputChange("phone_number", e.target.value)}
+            value={basics.phone}
+            onChange={(e) => handleInputChange("phone", e.target.value)}
             placeholder="+1 (555) 123-4567"
-            className={validationErrors.phone ? "input-error" : ""}
+            className={validationErrors?.phone ? "input-error" : ""}
           />
-          {validationErrors.phone && (
+          {validationErrors?.phone && (
             <span className="error-text">
-              Please enter a valid phone number
+              Please enter a valid phone number (digits only, + allowed at start)
             </span>
           )}
         </div>
@@ -140,7 +142,7 @@ export function BasicsForm({ resume, updateSection, validationErrors = {} }) {
           <label>City</label>
           <input
             type="text"
-            value={basics.city || ""}
+            value={basics.city}
             onChange={(e) => handleInputChange("city", e.target.value)}
             placeholder="New York"
           />
@@ -149,7 +151,7 @@ export function BasicsForm({ resume, updateSection, validationErrors = {} }) {
         <div className="form-group">
           <label>Country</label>
           <select
-            value={basics.country || ""}
+            value={basics.country}
             onChange={(e) => handleInputChange("country", e.target.value)}
           >
             <option value="">Select Country</option>
@@ -165,10 +167,8 @@ export function BasicsForm({ resume, updateSection, validationErrors = {} }) {
           <label>LinkedIn</label>
           <input
             type="url"
-            value={basics.linkedin_profile || ""}
-            onChange={(e) =>
-              handleInputChange("linkedin_profile", e.target.value)
-            }
+            value={basics.linkedIn}
+            onChange={(e) => handleInputChange("linkedIn", e.target.value)}
             placeholder="https://linkedin.com/in/username"
           />
         </div>
@@ -177,10 +177,8 @@ export function BasicsForm({ resume, updateSection, validationErrors = {} }) {
           <label>GitHub</label>
           <input
             type="url"
-            value={basics.github_profile || ""}
-            onChange={(e) =>
-              handleInputChange("github_profile", e.target.value)
-            }
+            value={basics.github}
+            onChange={(e) => handleInputChange("github", e.target.value)}
             placeholder="https://github.com/username"
           />
         </div>
@@ -189,10 +187,8 @@ export function BasicsForm({ resume, updateSection, validationErrors = {} }) {
           <label>Website</label>
           <input
             type="url"
-            value={basics.personal_website || ""}
-            onChange={(e) =>
-              handleInputChange("personal_website", e.target.value)
-            }
+            value={basics.website}
+            onChange={(e) => handleInputChange("website", e.target.value)}
             placeholder="https://yourwebsite.com"
           />
         </div>
@@ -201,13 +197,9 @@ export function BasicsForm({ resume, updateSection, validationErrors = {} }) {
   );
 }
 
+// Skills Form
 export function SkillsForm({ resume, addSkill, removeSkill }) {
   const [newSkill, setNewSkill] = React.useState("");
-
-  // ✅ SAFE ACCESS
-  const skills = resume?.skills ?? [];
-
-  console.log("Rendering SkillsForm with skills:", skills);
 
   const handleAddSkill = () => {
     if (newSkill.trim()) {
@@ -218,7 +210,6 @@ export function SkillsForm({ resume, addSkill, removeSkill }) {
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      e.preventDefault();
       handleAddSkill();
     }
   };
@@ -239,30 +230,24 @@ export function SkillsForm({ resume, addSkill, removeSkill }) {
             placeholder="Add a skill (e.g., JavaScript, React, Project Management)"
             value={newSkill}
             onChange={(e) => setNewSkill(e.target.value)}
-            onKeyDown={handleKeyPress}
+            onKeyPress={handleKeyPress}
           />
-          <button
-            type="button"
-            className="btn-add-compact"
-            onClick={handleAddSkill}
-          >
+          <button className="btn-add-compact" onClick={handleAddSkill}>
             Add
           </button>
         </div>
       </div>
 
       <div className="skill-chips">
-        {skills.map((skill, index) => (
+        {resume.data.skills.map((skill, index) => (
           <div key={index} className="chip">
             {skill}
-            <button type="button" onClick={() => removeSkill(index)}>
-              ×
-            </button>
+            <button onClick={() => removeSkill(index)}>×</button>
           </div>
         ))}
       </div>
 
-      {skills.length === 0 && (
+      {resume.data.skills.length === 0 && (
         <div className="empty-state">
           <p>No skills added yet. Add your first skill above.</p>
         </div>
@@ -273,114 +258,131 @@ export function SkillsForm({ resume, addSkill, removeSkill }) {
 
 function ExperienceCard({ experience, onUpdate, onDelete }) {
   const [isRichEditor, setIsRichEditor] = React.useState(false);
-
-  const updateField = React.useCallback(
-    (field, value) => {
-      onUpdate(experience.id, field, value);
-    },
-    [experience.id, onUpdate]
-  );
-
   const handleMonthYearChange = (date, field) => {
-    if (!date) {
-      updateField(field, "");
-      return;
-    }
+    if (date) {
+      const year = date.getFullYear();
+       const month = date.getMonth() + 1; 
+      console.log("Selected date:", date, "Formatted:", `${year}-${month}-01`);
 
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    updateField(field, `${year}-${month}-01`);
+      const formatted = `${year}-${month.toString().padStart(2, "0")}-01`;
+
+      onUpdate(experience.id, field, formatted);
+    } else {
+      onUpdate(experience.id, field, "");
+    }
   };
 
-  const handleCurrentToggle = (checked) => {
-    updateField("current", checked);
-    if (checked) updateField("to", "");
+  const handleDescriptionChange = (content) => {
+    onUpdate(experience.id, "description", content);
   };
 
   return (
     <div className="experience-card">
       <div className="experience-header">
         <div className="experience-title">
-          <input
-            type="text"
-            value={experience.title || ""}
-            onChange={(e) => updateField("title", e.target.value)}
-            placeholder="Job Title"
-            className="inline-input"
-          />
-
-          <input
-            type="text"
-            value={experience.employer || ""}
-            onChange={(e) => updateField("employer", e.target.value)}
-            placeholder="Organization Name"
-            className="inline-input"
-          />
+          <h4>
+            <input
+              type="text"
+              value={experience.title}
+              onChange={(e) => onUpdate(experience.id, "title", e.target.value)}
+              placeholder="Job Title"
+              className="inline-input"
+            />
+          </h4>
+          <div className="experience-company">
+            <input
+              type="text"
+              value={experience.employer}
+              onChange={(e) =>
+                onUpdate(experience.id, "employer", e.target.value)
+              }
+              placeholder="Organization Name"
+              className="inline-input"
+            />
+          </div>
         </div>
-
-        <button
-          type="button"
-          className="btn-delete"
-          onClick={() => onDelete(experience.id)}
-        >
-          <FaTrash />
-        </button>
+        <div className="experience-actions">
+          <button
+            className="btn-delete"
+            onClick={() => onDelete(experience.id)}
+          >
+            <FaTrash />
+          </button>
+        </div>
       </div>
 
       <div className="experience-dates">
-        <DatePicker
-          selected={experience.from ? new Date(experience.from) : null}
-          onChange={(date) => handleMonthYearChange(date, "from")}
-          dateFormat="MM/yyyy"
-          showMonthYearPicker
-          placeholderText="MM/YYYY"
-          className="date-picker-input"
-        />
-
-        <DatePicker
-          selected={experience.to ? new Date(experience.to) : null}
-          onChange={(date) => handleMonthYearChange(date, "to")}
-          dateFormat="MM/yyyy"
-          showMonthYearPicker
-          disabled={experience.current}
-          placeholderText={experience.current ? "Present" : "MM/YYYY"}
-          className="date-picker-input"
-        />
-
-        <label className="checkbox-label">
-          <input
-            type="checkbox"
-            checked={!!experience.current}
-            onChange={(e) => handleCurrentToggle(e.target.checked)}
+        <div className="form-group">
+          <label>From</label>
+          <DatePicker
+            selected={experience.from ? new Date(experience.from) : null}
+            onChange={(date) => handleMonthYearChange(date, "from")}
+            dateFormat="MM/yyyy"
+            showMonthYearPicker
+            placeholderText="MM/YYYY"
+            className="date-picker-input"
           />
-          <span className="checkmark"></span>
-          Currently working here
-        </label>
+        </div>
+        <div className="form-group">
+          <label>To</label>
+          <DatePicker
+            selected={experience.to ? new Date(experience.to) : null}
+            onChange={(date) => handleMonthYearChange(date, "to")}
+            dateFormat="MM/yyyy"
+            showMonthYearPicker
+            disabled={experience.current}
+            placeholderText={experience.current ? "Present" : "MM/YYYY"}
+            className="date-picker-input"
+          />
+        </div>
+        <div className="checkbox-group">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={experience.current}
+              onChange={(e) =>
+                onUpdate(experience.id, "current", e.target.checked)
+              }
+            />
+            <span className="checkmark"></span>
+            Currently working here
+          </label>
+        </div>
       </div>
 
       <div className="form-group full-width">
         <div className="editor-header">
           <label>Description</label>
           <button
-            type="button"
             className={`toggle-switch ${isRichEditor ? "on" : "off"}`}
-            onClick={() => setIsRichEditor((v) => !v)}
-          />
+            onClick={() => setIsRichEditor(!isRichEditor)}
+            title={
+              isRichEditor ? "Switch to Simple Editor" : "Switch to Rich Editor"
+            }
+          >
+            <span className="toggle-slider">
+              <span className="toggle-knob"></span>
+            </span>
+          </button>
         </div>
 
         {isRichEditor ? (
-          <ReactQuill
-            value={experience.description || ""}
-            onChange={(content) => updateField("description", content)}
-            modules={quillModules}
-            formats={quillFormats}
-            theme="snow"
-          />
+          <div className="rich-text-editor-container">
+            <ReactQuill
+              value={experience.description || ""}
+              onChange={handleDescriptionChange}
+              modules={quillModules}
+              formats={quillFormats}
+              theme="snow"
+            />
+          </div>
         ) : (
           <textarea
             rows={3}
             value={experience.description || ""}
-            onChange={(e) => updateField("description", e.target.value)}
+            onChange={(e) =>
+              onUpdate(experience.id, "description", e.target.value)
+            }
             placeholder="Describe your responsibilities and achievements..."
           />
         )}
@@ -389,19 +391,14 @@ function ExperienceCard({ experience, onUpdate, onDelete }) {
   );
 }
 
-export function ExperienceForm(
-{deleteItem,
-saveCurrentSection,
-updateSection,
-isFresher,setIsFresher,
-addExperience,
-resume}
-) {
-
-  
-  const experienceList = resume?.experience ?? [];
-  console.log("Rendering ExperienceForm with experienceList:", experienceList);
-
+export function ExperienceForm({
+  resume,
+  isFresher,
+  setIsFresher,
+  addExperience,
+  updateExperience,
+  deleteExperience,
+}) {
   return (
     <div className="step-content">
       <div className="step-header">
@@ -411,37 +408,42 @@ resume}
         </p>
       </div>
 
-      <label className="checkbox-label">
-        <input
-          type="checkbox"
-          checked={isFresher}
-          onChange={(e) => setIsFresher(e.target.checked)}
-        />
-        <span className="checkmark"></span>I am a Fresher (No Work Experience)
-      </label>
+      <div className="fresher-toggle">
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            checked={isFresher}
+            onChange={(e) => setIsFresher(e.target.checked)}
+          />
+          <span className="checkmark"></span>I am a Fresher (No Work Experience)
+        </label>
+      </div>
 
       {!isFresher && (
         <>
           <div className="experience-list">
-            {experienceList.map((exp) => (
+            {resume.data.experience.map((exp) => (
               <ExperienceCard
                 key={exp.id}
-                experience={experienceList}
-                onUpdate={updateSection}
-                onDelete={deleteItem}
+                experience={exp}
+                onUpdate={updateExperience}
+                onDelete={deleteExperience}
               />
             ))}
           </div>
 
           <div className="btn-row">
-            <button type="button" onClick={addExperience}>
+            <button className="btn-add-right" onClick={addExperience}>
               <FaPlus /> Add Experience
             </button>
           </div>
 
-          {experienceList.length === 0 && (
+          {resume.data.experience.length === 0 && (
             <div className="empty-state">
-              <p>No experience added yet.</p>
+              <p>
+                No work experience added yet. Click the button above to add your
+                first experience.
+              </p>
             </div>
           )}
         </>
@@ -462,29 +464,6 @@ function ProjectCard({
   const [newSkill, setNewSkill] = React.useState("");
   const [isRichEditor, setIsRichEditor] = React.useState(false);
 
-  const updateField = React.useCallback(
-    (field, value) => {
-      onUpdate(project.id, field, value);
-    },
-    [project.id, onUpdate]
-  );
-
-  const handleMonthYearChange = (date, field) => {
-    if (!date) {
-      updateField(field, "");
-      return;
-    }
-
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    updateField(field, `${year}-${month}-01`);
-  };
-
-  const handleCurrentToggle = (checked) => {
-    updateField("current", checked);
-    if (checked) updateField("to", "");
-  };
-
   const handleAddSkill = () => {
     if (newSkill.trim()) {
       addProjectSkill(project.id, newSkill.trim());
@@ -492,173 +471,229 @@ function ProjectCard({
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleAddSkill();
+    }
+  };
+
+  const handleMonthYearChange = (date, field) => {
+    if (date) {
+      const year = date.getFullYear();
+       const month = date.getMonth() + 1;;
+      const newDate = new Date(year, month, 1);
+      onUpdate(project.id, field, newDate.toISOString().split("T")[0]);
+    } else {
+      onUpdate(project.id, field, "");
+    }
+  };
+
+  const handleDescriptionChange = (content) => {
+    onUpdate(project.id, "description", content);
+  };
+
   return (
     <div className="project-card">
       <div className="project-header">
         <div className="project-title">
-          <input
-            type="text"
-            value={project.title || ""}
-            onChange={(e) => updateField("title", e.target.value)}
-            placeholder="Project Title"
-            className="inline-input"
-          />
-
-          <input
-            type="url"
-            value={project.link || ""}
-            onChange={(e) => updateField("link", e.target.value)}
-            placeholder="Project URL (optional)"
-            className="inline-input"
-          />
+          <h4>
+            <input
+              type="text"
+              value={project.title}
+              onChange={(e) => onUpdate(project.id, "title", e.target.value)}
+              placeholder="Project Title"
+              className="inline-input"
+            />
+          </h4>
+          <div className="project-link">
+            <input
+              type="url"
+              value={project.link}
+              onChange={(e) => onUpdate(project.id, "link", e.target.value)}
+              placeholder="Project URL (optional)"
+              className="inline-input"
+            />
+          </div>
         </div>
-
-        <button
-          type="button"
-          className="btn-delete"
-          onClick={() => onDelete(project.id)}
-        >
-          <FaTrash />
-        </button>
+        <div className="project-actions">
+          <button className="btn-delete" onClick={() => onDelete(project.id)}>
+            <FaTrash />
+          </button>
+        </div>
       </div>
 
       <div className="project-dates">
-        <DatePicker
-          selected={project.from ? new Date(project.from) : null}
-          onChange={(date) => handleMonthYearChange(date, "from")}
-          dateFormat="MM/yyyy"
-          showMonthYearPicker
-          placeholderText="MM/YYYY"
-          className="date-picker-input"
-        />
-
-        <DatePicker
-          selected={project.to ? new Date(project.to) : null}
-          onChange={(date) => handleMonthYearChange(date, "to")}
-          dateFormat="MM/yyyy"
-          showMonthYearPicker
-          disabled={project.current}
-          placeholderText={project.current ? "Present" : "MM/YYYY"}
-          className="date-picker-input"
-        />
-
-        <label className="checkbox-label">
-          <input
-            type="checkbox"
-            checked={!!project.current}
-            onChange={(e) => handleCurrentToggle(e.target.checked)}
+        <div className="form-group">
+          <label>From</label>
+          <DatePicker
+            selected={project.from ? new Date(project.from) : null}
+            onChange={(date) => handleMonthYearChange(date, "from")}
+            dateFormat="MM/yyyy"
+            showMonthYearPicker
+            placeholderText="MM/YYYY"
+            className="date-picker-input"
           />
-          <span className="checkmark"></span>
-          Currently working on this project
-        </label>
+        </div>
+
+        <div className="form-group">
+          <label>To</label>
+          <DatePicker
+            selected={project.to ? new Date(project.to) : null}
+            onChange={(date) => handleMonthYearChange(date, "to")}
+            dateFormat="MM/yyyy"
+            showMonthYearPicker
+            disabled={project.current}
+            placeholderText={project.current ? "Present" : "MM/YYYY"}
+            className="date-picker-input"
+          />
+        </div>
+
+        <div className="checkbox-group">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={project.current || false}
+              onChange={(e) =>
+                onUpdate(project.id, "current", e.target.checked)
+              }
+            />
+            <span className="checkmark"></span>
+            Currently working on this project
+          </label>
+        </div>
       </div>
 
-      {/* Skills */}
+      {/* Skills Used Section */}
       <div className="form-group full-width">
         <label>Skills & Technologies Used</label>
-
         <div className="skill-input-wrapper compact">
           <input
             className="skill-input"
             placeholder="Add a skill"
             value={newSkill}
             onChange={(e) => setNewSkill(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleAddSkill()}
+            onKeyPress={handleKeyPress}
           />
-          <button type="button" onClick={handleAddSkill}>
+          <button className="btn-add-compact" onClick={handleAddSkill}>
             Add
           </button>
         </div>
 
         <div className="skill-chips">
-          {(project.skillsUsed ?? []).map((skill, index) => (
+          {project.skillsUsed?.map((skill, index) => (
             <div key={index} className="chip">
               {skill}
-              <button
-                type="button"
-                onClick={() => removeProjectSkill(project.id, index)}
-              >
+              <button onClick={() => removeProjectSkill(project.id, index)}>
                 ×
               </button>
             </div>
           ))}
         </div>
 
-        {(project.skillsUsed?.length ?? 0) === 0 && (
+        {(!project.skillsUsed || project.skillsUsed.length === 0) && (
           <div className="empty-state small">
             <p>No skills added yet.</p>
           </div>
         )}
       </div>
 
-      {/* Optional Fields */}
-      <label className="checkbox-label">
-        <input
-          type="checkbox"
-          checked={!!project.showOptionalFields}
-          onChange={(e) => updateField("showOptionalFields", e.target.checked)}
-        />
-        <span className="checkmark"></span>
-        Add client & team details
-      </label>
+      <div className="optional-fields-toggle">
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            checked={project.showOptionalFields || false}
+            onChange={(e) =>
+              onUpdate(project.id, "showOptionalFields", e.target.checked)
+            }
+          />
+          <span className="checkmark"></span>
+          Add client & team details
+        </label>
+      </div>
 
       {project.showOptionalFields && (
         <div className="optional-fields">
-          <input
-            type="text"
-            value={project.clientName || ""}
-            onChange={(e) => updateField("clientName", e.target.value)}
-            placeholder="Client Name"
-          />
+          <div className="form-group">
+            <label>Client Name</label>
+            <input
+              type="text"
+              value={project.clientName || ""}
+              onChange={(e) =>
+                onUpdate(project.id, "clientName", e.target.value)
+              }
+              placeholder="Client or Company Name"
+            />
+          </div>
 
-          <input
-            type="number"
-            value={project.teamSize || ""}
-            onChange={(e) => updateField("teamSize", e.target.value)}
-            min="1"
-            placeholder="Team Size"
-          />
+          <div className="form-group">
+            <label>Team Size</label>
+            <input
+              type="number"
+              value={project.teamSize || ""}
+              onChange={(e) => onUpdate(project.id, "teamSize", e.target.value)}
+              placeholder="Number of team members"
+              min="1"
+            />
+          </div>
         </div>
       )}
 
-      {/* Description */}
       <div className="form-group full-width">
         <div className="editor-header">
           <label>Description</label>
           <button
-            type="button"
             className={`toggle-switch ${isRichEditor ? "on" : "off"}`}
-            onClick={() => setIsRichEditor((v) => !v)}
-          />
+            onClick={() => setIsRichEditor(!isRichEditor)}
+            title={
+              isRichEditor ? "Switch to Simple Editor" : "Switch to Rich Editor"
+            }
+          >
+            <span className="toggle-slider">
+              <span className="toggle-knob"></span>
+            </span>
+          </button>
         </div>
 
         {isRichEditor ? (
-          <ReactQuill
-            value={project.description || ""}
-            onChange={(content) => updateField("description", content)}
-            modules={quillModules}
-            formats={quillFormats}
-            theme="snow"
-          />
+          <div className="rich-text-editor-container">
+            <ReactQuill
+              value={project.description || ""}
+              onChange={handleDescriptionChange}
+              modules={quillModules}
+              formats={quillFormats}
+              theme="snow"
+            />
+          </div>
         ) : (
           <textarea
             rows={3}
             value={project.description || ""}
-            onChange={(e) => updateField("description", e.target.value)}
-            placeholder="Describe the project..."
+            onChange={(e) =>
+              onUpdate(project.id, "description", e.target.value)
+            }
+            placeholder="Describe the project, technologies used, your role, and achievements..."
           />
         )}
       </div>
 
-      {/* AI Summary */}
-      <button
-        type="button"
-        onClick={() => handleGenerateProjectSummary(project.id)}
-        disabled={!project.title || !project.skillsUsed?.length}
-        className="ai-generate-btn"
-      >
-        🚀 Generate Project Summary with AI
-      </button>
+      {/* AI Summary Generation for Project */}
+      <div className="ai-summary-section">
+        <button
+          onClick={() => handleGenerateProjectSummary(project.id)}
+          disabled={
+            !project.title ||
+            !project.skillsUsed ||
+            project.skillsUsed.length === 0
+          }
+          className="ai-generate-btn"
+        >
+          🚀 Generate Project Summary with AI
+        </button>
+        <p className="ai-summary-hint">
+          AI will generate a professional project description based on your
+          project title and skills used
+        </p>
+      </div>
     </div>
   );
 }
@@ -672,8 +707,6 @@ export function ProjectsForm({
   removeProjectSkill,
   handleGenerateProjectSummary,
 }) {
-  const projects = resume?.projects ?? [];
-
   return (
     <div className="step-content">
       <div className="step-header">
@@ -684,7 +717,7 @@ export function ProjectsForm({
       </div>
 
       <div className="project-list">
-        {projects.map((proj) => (
+        {resume.data.projects.map((proj) => (
           <ProjectCard
             key={proj.id}
             project={proj}
@@ -698,14 +731,17 @@ export function ProjectsForm({
       </div>
 
       <div className="btn-row">
-        <button type="button" onClick={addProject}>
+        <button className="btn-add-right" onClick={addProject}>
           <FaPlus /> Add Project
         </button>
       </div>
 
-      {projects.length === 0 && (
+      {resume.data.projects.length === 0 && (
         <div className="empty-state">
-          <p>No projects added yet.</p>
+          <p>
+            No projects added yet. Click the button above to add your first
+            project.
+          </p>
         </div>
       )}
     </div>
@@ -715,15 +751,15 @@ export function ProjectsForm({
 // Summary Form with ReactQuill
 export function SummaryForm({
   resume,
+  isFresher,
   updatePersonalStatement,
   handleGenerateSummary,
 }) {
   const [isRichEditor, setIsRichEditor] = React.useState(false);
 
-  const personalStatement = resume.personalStatement ?? "";
-
-  const jobTitle = resume?.basics?.jobTitle ?? "";
-  const skillsCount = resume?.skills?.length ?? 0;
+  const handleEditorChange = (content) => {
+    updatePersonalStatement(content);
+  };
 
   return (
     <div className="step-content">
@@ -739,43 +775,52 @@ export function SummaryForm({
         <div className="editor-header">
           <label>Summary</label>
           <button
-            type="button"
             className={`toggle-switch ${isRichEditor ? "on" : "off"}`}
-            onClick={() => setIsRichEditor((v) => !v)}
-          />
+            onClick={() => setIsRichEditor(!isRichEditor)}
+            title={
+              isRichEditor ? "Switch to Simple Editor" : "Switch to Rich Editor"
+            }
+          >
+            <span className="toggle-slider">
+              <span className="toggle-knob"></span>
+            </span>
+          </button>
         </div>
 
         {isRichEditor ? (
-          <ReactQuill
-            value={personalStatement}
-            onChange={updatePersonalStatement}
-            modules={quillModules}
-            formats={quillFormats}
-            theme="snow"
-            placeholder="Experienced software engineer with 5+ years..."
-          />
+          <div className="rich-text-editor-container">
+            <ReactQuill
+              value={resume.data.personalStatement || ""}
+              onChange={handleEditorChange}
+              modules={quillModules}
+              formats={quillFormats}
+              theme="snow"
+              placeholder="Experienced software engineer with 5+ years in web development..."
+            />
+          </div>
         ) : (
           <textarea
             rows={6}
-            value={personalStatement}
+            placeholder="Experienced software engineer with 5+ years in web development..."
+            value={resume.data.personalStatement || ""}
             onChange={(e) => updatePersonalStatement(e.target.value)}
-            placeholder="Experienced software engineer with 5+ years..."
           />
         )}
       </div>
 
       <div className="ai-summary-section">
         <button
-          type="button"
           onClick={handleGenerateSummary}
-          disabled={!jobTitle || skillsCount === 0}
+          disabled={
+            !resume.data.basics.jobTitle || resume.data.skills.length === 0
+          }
           className="ai-generate-btn"
         >
           🚀 Generate Summary with AI
         </button>
-
         <p className="ai-summary-hint">
-          AI will generate a professional summary based on your profile
+          AI will generate a professional summary based on your job title,
+          skills, experience, and projects
         </p>
       </div>
     </div>
@@ -784,85 +829,86 @@ export function SummaryForm({
 
 // Education Form Components with FIXED date pickers
 function EducationCard({ education, onUpdate, onDelete }) {
-  const updateField = (field, value) => {
-    onUpdate(education.id, field, value);
-  };
-
   const handleMonthYearChange = (date, field) => {
-    if (!date) {
-      updateField(field, "");
-      return;
+    if (date) {
+      const year = date.getFullYear();
+       const month = date.getMonth() + 1;;
+      const newDate = new Date(year, month, 1);
+      onUpdate(education.id, field, newDate.toISOString().split("T")[0]);
+    } else {
+      onUpdate(education.id, field, "");
     }
-
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    updateField(field, `${year}-${month}-01`);
-  };
-
-  const handleCurrentToggle = (checked) => {
-    updateField("current", checked);
-    if (checked) updateField("to", "");
   };
 
   return (
     <div className="education-card">
       <div className="education-header">
         <div className="education-title">
-          <input
-            type="text"
-            value={education.degree || ""}
-            onChange={(e) => updateField("degree", e.target.value)}
-            placeholder="Degree or Certification"
-            className="inline-input"
-          />
-
-          <input
-            type="text"
-            value={education.institution || ""}
-            onChange={(e) => updateField("institution", e.target.value)}
-            placeholder="Institution Name"
-            className="inline-input"
-          />
+          <h4>
+            <input
+              type="text"
+              value={education.degree}
+              onChange={(e) => onUpdate(education.id, "degree", e.target.value)}
+              placeholder="Degree or Certification"
+              className="inline-input"
+            />
+          </h4>
+          <div className="education-institution">
+            <input
+              type="text"
+              value={education.institution}
+              onChange={(e) =>
+                onUpdate(education.id, "institution", e.target.value)
+              }
+              placeholder="Institution Name"
+              className="inline-input"
+            />
+          </div>
         </div>
-
-        <button
-          type="button"
-          className="btn-delete"
-          onClick={() => onDelete(education.id)}
-        >
-          <FaTrash />
-        </button>
+        <div className="education-actions">
+          <button className="btn-delete" onClick={() => onDelete(education.id)}>
+            <FaTrash />
+          </button>
+        </div>
       </div>
 
       <div className="education-dates">
-        <DatePicker
-          selected={education.from ? new Date(education.from) : null}
-          onChange={(date) => handleMonthYearChange(date, "from")}
-          dateFormat="MM/yyyy"
-          showMonthYearPicker
-          placeholderText="MM/YYYY"
-          className="date-picker-input"
-        />
-
-        <DatePicker
-          selected={education.to ? new Date(education.to) : null}
-          onChange={(date) => handleMonthYearChange(date, "to")}
-          dateFormat="MM/yyyy"
-          showMonthYearPicker
-          disabled={education.current}
-          placeholderText={education.current ? "Present" : "MM/YYYY"}
-          className="date-picker-input"
-        />
-
-        <label className="checkbox-label">
-          <input
-            type="checkbox"
-            checked={!!education.current}
-            onChange={(e) => handleCurrentToggle(e.target.checked)}
+        <div className="form-group">
+          <label>From</label>
+          <DatePicker
+            selected={education.from ? new Date(education.from) : null}
+            onChange={(date) => handleMonthYearChange(date, "from")}
+            dateFormat="MM/yyyy"
+            showMonthYearPicker
+            placeholderText="MM/YYYY"
+            className="date-picker-input"
           />
-          <span className="checkmark"></span>
-          Currently studying here
-        </label>
+        </div>
+        <div className="form-group">
+          <label>To</label>
+          <DatePicker
+            selected={education.to ? new Date(education.to) : null}
+            onChange={(date) => handleMonthYearChange(date, "to")}
+            dateFormat="MM/yyyy"
+            showMonthYearPicker
+            disabled={education.current}
+            placeholderText={education.current ? "Present" : "MM/YYYY"}
+            className="date-picker-input"
+          />
+        </div>
+        <div className="checkbox-group">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={education.current}
+              onChange={(e) =>
+                onUpdate(education.id, "current", e.target.checked)
+              }
+            />
+            <span className="checkmark"></span>
+            Currently studying here
+          </label>
+        </div>
       </div>
     </div>
   );
@@ -874,8 +920,6 @@ export function EducationForm({
   updateEducation,
   deleteEducation,
 }) {
-  const educationList = resume?.education ?? [];
-
   return (
     <div className="step-content">
       <div className="step-header">
@@ -884,7 +928,7 @@ export function EducationForm({
       </div>
 
       <div className="education-list">
-        {educationList.map((edu) => (
+        {resume.data.education.map((edu) => (
           <EducationCard
             key={edu.id}
             education={edu}
@@ -895,14 +939,17 @@ export function EducationForm({
       </div>
 
       <div className="btn-row">
-        <button type="button" onClick={addEducation}>
+        <button className="btn-add-right" onClick={addEducation}>
           <FaPlus /> Add Education
         </button>
       </div>
 
-      {educationList.length === 0 && (
+      {resume.data.education.length === 0 && (
         <div className="empty-state">
-          <p>No education entries added yet.</p>
+          <p>
+            No education entries added yet. Click the button above to add your
+            first education.
+          </p>
         </div>
       )}
     </div>
@@ -911,187 +958,266 @@ export function EducationForm({
 
 // Extra Section Card Components with FIXED date pickers
 function AchievementCard({ achievement, onUpdate, onDelete }) {
-  const updateField = (field, value) => onUpdate(achievement.id, field, value);
+  const handleMonthYearChange = (date, field) => {
+    if (date) {
+      const year = date.getFullYear();
+       const month = date.getMonth() + 1;;
+      const newDate = new Date(year, month, 1);
+      onUpdate(achievement.id, field, newDate.toISOString().split("T")[0]);
+    } else {
+      onUpdate(achievement.id, field, "");
+    }
+  };
 
   return (
     <div className="extra-section-card">
       <div className="extra-section-header">
         <h4>Achievement</h4>
-        <button type="button" onClick={() => onDelete(achievement.id)}>
+        <button className="btn-delete" onClick={() => onDelete(achievement.id)}>
           <FaTrash />
         </button>
       </div>
-
       <div className="form-grid">
-        <input
-          type="text"
-          value={achievement.title || ""}
-          onChange={(e) => updateField("title", e.target.value)}
-          placeholder="Achievement Title"
-        />
-
-        <DatePicker
-          selected={achievement.date ? new Date(achievement.date) : null}
-          onChange={(date) => updateField("date", toMonthYearISO(date))}
-          dateFormat="MM/yyyy"
-          showMonthYearPicker
-          placeholderText="MM/YYYY"
-        />
-
-        <input
-          type="text"
-          value={achievement.category || ""}
-          onChange={(e) => updateField("category", e.target.value)}
-          placeholder="Category"
-        />
-
-        <input
-          type="text"
-          value={achievement.issuer || ""}
-          onChange={(e) => updateField("issuer", e.target.value)}
-          placeholder="Issuer"
-        />
-
-        <textarea
-          rows={2}
-          value={achievement.description || ""}
-          onChange={(e) => updateField("description", e.target.value)}
-          maxLength={200}
-          placeholder="Description"
-        />
-
-        <input
-          type="url"
-          value={achievement.link || ""}
-          onChange={(e) => updateField("link", e.target.value)}
-          placeholder="Optional link"
-        />
+        <div className="form-group">
+          <label>Title *</label>
+          <input
+            type="text"
+            value={achievement.title}
+            onChange={(e) => onUpdate(achievement.id, "title", e.target.value)}
+            placeholder="Employee of the Month"
+          />
+        </div>
+        <div className="form-group">
+          <label>Date *</label>
+          <DatePicker
+            selected={achievement.date ? new Date(achievement.date) : null}
+            onChange={(date) => handleMonthYearChange(date, "date")}
+            dateFormat="MM/yyyy"
+            showMonthYearPicker
+            placeholderText="MM/YYYY"
+            className="date-picker-input"
+          />
+        </div>
+        <div className="form-group">
+          <label>Category</label>
+          <input
+            type="text"
+            value={achievement.category}
+            onChange={(e) =>
+              onUpdate(achievement.id, "category", e.target.value)
+            }
+            placeholder="Professional"
+          />
+        </div>
+        <div className="form-group">
+          <label>Issuer</label>
+          <input
+            type="text"
+            value={achievement.issuer}
+            onChange={(e) => onUpdate(achievement.id, "issuer", e.target.value)}
+            placeholder="Company XYZ"
+          />
+        </div>
+        <div className="form-group full-width">
+          <label>Description</label>
+          <textarea
+            rows={2}
+            value={achievement.description}
+            onChange={(e) =>
+              onUpdate(achievement.id, "description", e.target.value)
+            }
+            placeholder="Recognized for increasing sales by 20% in Q2"
+            maxLength={200}
+          />
+          <div className="char-count">
+            {achievement.description?.length || 0}/200 characters
+          </div>
+        </div>
+        <div className="form-group full-width">
+          <label>Link</label>
+          <input
+            type="url"
+            value={achievement.link}
+            onChange={(e) => onUpdate(achievement.id, "link", e.target.value)}
+            placeholder="https://example.com/certificate"
+          />
+        </div>
       </div>
     </div>
   );
 }
 
 function CertificationCard({ certification, onUpdate, onDelete }) {
-  const updateField = (field, value) =>
-    onUpdate(certification.id, field, value);
+  const handleMonthYearChange = (date, field) => {
+    if (date) {
+      const year = date.getFullYear();
+       const month = date.getMonth() + 1;;
+      const newDate = new Date(year, month, 1);
+      onUpdate(certification.id, field, newDate.toISOString().split("T")[0]);
+    } else {
+      onUpdate(certification.id, field, "");
+    }
+  };
 
   return (
     <div className="extra-section-card">
       <div className="extra-section-header">
         <h4>Certification</h4>
-        <button type="button" onClick={() => onDelete(certification.id)}>
+        <button
+          className="btn-delete"
+          onClick={() => onDelete(certification.id)}
+        >
           <FaTrash />
         </button>
       </div>
-
       <div className="form-grid">
-        <input
-          type="text"
-          value={certification.name || ""}
-          onChange={(e) => updateField("name", e.target.value)}
-          placeholder="Certification Name"
-        />
-
-        <input
-          type="text"
-          value={certification.issuer || ""}
-          onChange={(e) => updateField("issuer", e.target.value)}
-          placeholder="Issuer"
-        />
-
-        <DatePicker
-          selected={
-            certification.dateObtained
-              ? new Date(certification.dateObtained)
-              : null
-          }
-          onChange={(date) => updateField("dateObtained", toMonthYearISO(date))}
-          dateFormat="MM/yyyy"
-          showMonthYearPicker
-          placeholderText="MM/YYYY"
-        />
-
-        <DatePicker
-          selected={
-            certification.expirationDate
-              ? new Date(certification.expirationDate)
-              : null
-          }
-          onChange={(date) =>
-            updateField("expirationDate", toMonthYearISO(date))
-          }
-          dateFormat="MM/yyyy"
-          showMonthYearPicker
-          placeholderText="MM/YYYY"
-        />
-
-        <input
-          type="text"
-          value={certification.credentialId || ""}
-          onChange={(e) => updateField("credentialId", e.target.value)}
-          placeholder="Credential ID"
-        />
-
-        <input
-          type="url"
-          value={certification.link || ""}
-          onChange={(e) => updateField("link", e.target.value)}
-          placeholder="Certificate URL"
-        />
+        <div className="form-group">
+          <label>Name *</label>
+          <input
+            type="text"
+            value={certification.name}
+            onChange={(e) => onUpdate(certification.id, "name", e.target.value)}
+            placeholder="AWS Certified Solutions Architect"
+          />
+        </div>
+        <div className="form-group">
+          <label>Issuer *</label>
+          <input
+            type="text"
+            value={certification.issuer}
+            onChange={(e) =>
+              onUpdate(certification.id, "issuer", e.target.value)
+            }
+            placeholder="Amazon Web Services"
+          />
+        </div>
+        <div className="form-group">
+          <label>Date Obtained *</label>
+          <DatePicker
+            selected={
+              certification.dateObtained
+                ? new Date(certification.dateObtained)
+                : null
+            }
+            onChange={(date) => handleMonthYearChange(date, "dateObtained")}
+            dateFormat="MM/yyyy"
+            showMonthYearPicker
+            placeholderText="MM/YYYY"
+            className="date-picker-input"
+          />
+        </div>
+        <div className="form-group">
+          <label>Expiration Date</label>
+          <DatePicker
+            selected={
+              certification.expirationDate
+                ? new Date(certification.expirationDate)
+                : null
+            }
+            onChange={(date) => handleMonthYearChange(date, "expirationDate")}
+            dateFormat="MM/yyyy"
+            showMonthYearPicker
+            placeholderText="MM/YYYY"
+            className="date-picker-input"
+          />
+        </div>
+        <div className="form-group">
+          <label>Credential ID</label>
+          <input
+            type="text"
+            value={certification.credentialId}
+            onChange={(e) =>
+              onUpdate(certification.id, "credentialId", e.target.value)
+            }
+            placeholder="ABC123XYZ"
+          />
+        </div>
+        <div className="form-group full-width">
+          <label>Link</label>
+          <input
+            type="url"
+            value={certification.link}
+            onChange={(e) => onUpdate(certification.id, "link", e.target.value)}
+            placeholder="https://www.aws.com/certificate"
+          />
+        </div>
       </div>
     </div>
   );
 }
 
 function AwardCard({ award, onUpdate, onDelete }) {
-  const updateField = (field, value) => onUpdate(award.id, field, value);
+  const handleMonthYearChange = (date, field) => {
+    if (date) {
+      const year = date.getFullYear();
+       const month = date.getMonth() + 1;;
+      const newDate = new Date(year, month, 1);
+      onUpdate(award.id, field, newDate.toISOString().split("T")[0]);
+    } else {
+      onUpdate(award.id, field, "");
+    }
+  };
 
   return (
     <div className="extra-section-card">
       <div className="extra-section-header">
         <h4>Award</h4>
-        <button type="button" onClick={() => onDelete(award.id)}>
+        <button className="btn-delete" onClick={() => onDelete(award.id)}>
           <FaTrash />
         </button>
       </div>
-
       <div className="form-grid">
-        <input
-          type="text"
-          value={award.title || ""}
-          onChange={(e) => updateField("title", e.target.value)}
-          placeholder="Award Title"
-        />
-
-        <DatePicker
-          selected={award.date ? new Date(award.date) : null}
-          onChange={(date) => updateField("date", toMonthYearISO(date))}
-          dateFormat="MM/yyyy"
-          showMonthYearPicker
-          placeholderText="MM/YYYY"
-        />
-
-        <input
-          type="text"
-          value={award.issuer || ""}
-          onChange={(e) => updateField("issuer", e.target.value)}
-          placeholder="Issuer"
-        />
-
-        <textarea
-          rows={2}
-          value={award.description || ""}
-          onChange={(e) => updateField("description", e.target.value)}
-          maxLength={200}
-          placeholder="Description"
-        />
-
-        <input
-          type="url"
-          value={award.link || ""}
-          onChange={(e) => updateField("link", e.target.value)}
-          placeholder="Optional link"
-        />
+        <div className="form-group">
+          <label>Title *</label>
+          <input
+            type="text"
+            value={award.title}
+            onChange={(e) => onUpdate(award.id, "title", e.target.value)}
+            placeholder="Best Innovator Award"
+          />
+        </div>
+        <div className="form-group">
+          <label>Date *</label>
+          <DatePicker
+            selected={award.date ? new Date(award.date) : null}
+            onChange={(date) => handleMonthYearChange(date, "date")}
+            dateFormat="MM/yyyy"
+            showMonthYearPicker
+            placeholderText="MM/YYYY"
+            className="date-picker-input"
+          />
+        </div>
+        <div className="form-group">
+          <label>Issuer</label>
+          <input
+            type="text"
+            value={award.issuer}
+            onChange={(e) => onUpdate(award.id, "issuer", e.target.value)}
+            placeholder="Google Developer Group"
+          />
+        </div>
+        <div className="form-group full-width">
+          <label>Description</label>
+          <textarea
+            rows={2}
+            value={award.description}
+            onChange={(e) => onUpdate(award.id, "description", e.target.value)}
+            placeholder="Awarded for innovative project ideas in hackathons"
+            maxLength={200}
+          />
+          <div className="char-count">
+            {award.description?.length || 0}/200 characters
+          </div>
+        </div>
+        <div className="form-group full-width">
+          <label>Link</label>
+          <input
+            type="url"
+            value={award.link}
+            onChange={(e) => onUpdate(award.id, "link", e.target.value)}
+            placeholder="https://example.com/award"
+          />
+        </div>
       </div>
     </div>
   );
@@ -1106,22 +1232,20 @@ function LanguageCard({ language, onUpdate, onDelete }) {
           <FaTrash />
         </button>
       </div>
-
       <div className="form-grid">
         <div className="form-group">
           <label>Language Name *</label>
           <input
             type="text"
-            value={language.name || ""}
+            value={language.name}
             onChange={(e) => onUpdate(language.id, "name", e.target.value)}
             placeholder="Spanish"
           />
         </div>
-
         <div className="form-group">
           <label>Proficiency *</label>
           <select
-            value={language.proficiency || ""}
+            value={language.proficiency}
             onChange={(e) =>
               onUpdate(language.id, "proficiency", e.target.value)
             }
@@ -1134,12 +1258,11 @@ function LanguageCard({ language, onUpdate, onDelete }) {
             ))}
           </select>
         </div>
-
         <div className="form-group">
           <label>Certificate</label>
           <input
             type="text"
-            value={language.certificate || ""}
+            value={language.certificate}
             onChange={(e) =>
               onUpdate(language.id, "certificate", e.target.value)
             }
@@ -1160,23 +1283,21 @@ function InterestCard({ interest, onUpdate, onDelete }) {
           <FaTrash />
         </button>
       </div>
-
       <div className="form-grid">
         <div className="form-group">
           <label>Name *</label>
           <input
             type="text"
-            value={interest.name || ""}
+            value={interest.name}
             onChange={(e) => onUpdate(interest.id, "name", e.target.value)}
             placeholder="Photography"
           />
         </div>
-
         <div className="form-group full-width">
           <label>Description</label>
           <textarea
             rows={2}
-            value={interest.description || ""}
+            value={interest.description}
             onChange={(e) =>
               onUpdate(interest.id, "description", e.target.value)
             }
@@ -1184,7 +1305,7 @@ function InterestCard({ interest, onUpdate, onDelete }) {
             maxLength={150}
           />
           <div className="char-count">
-            {(interest.description || "").length}/150 characters
+            {interest.description?.length || 0}/150 characters
           </div>
         </div>
       </div>
@@ -1193,18 +1314,18 @@ function InterestCard({ interest, onUpdate, onDelete }) {
 }
 
 // Helper function to get item count for a section
-function getSectionItemCount(data = {}, sectionType) {
+function getSectionItemCount(data, sectionType) {
   switch (sectionType) {
     case "Achievements":
-      return data.achievements?.length || 0;
+      return data.achievements.length;
     case "Certifications":
-      return data.certifications?.length || 0;
+      return data.certifications.length;
     case "Awards":
-      return data.awards?.length || 0;
+      return data.awards.length;
     case "Languages":
-      return data.languages?.length || 0;
+      return data.languages.length;
     case "Interests":
-      return data.interests?.length || 0;
+      return data.interests.length;
     default:
       return 0;
   }
@@ -1213,52 +1334,28 @@ function getSectionItemCount(data = {}, sectionType) {
 export function DeclarationForm({
   resume,
   updateDeclaration,
-
-  visibleExtraSections = [],
-  extraSections = [],
-
+  visibleExtraSections,
+  extraSections,
   setShowExtraModal,
-
   addAchievement,
   updateAchievement,
   deleteAchievement,
-
   addCertification,
   updateCertification,
   deleteCertification,
-
   addAward,
   updateAward,
   deleteAward,
-
   addLanguage,
   updateLanguage,
   deleteLanguage,
-
   addInterest,
   updateInterest,
   deleteInterest,
-
   handleDeleteExtra,
   updateExtraContent,
   handleSaveExtraSection,
 }) {
-  const data = resume || {
-    declaration: {},
-    achievements: [],
-    certifications: [],
-    awards: [],
-    languages: [],
-    interests: [],
-  };
-
-  const declaration = data.declaration || {};
-  const safeExtraSections = Array.isArray(extraSections) ? extraSections : [];
-
-  const safeVisibleExtraSections = Array.isArray(visibleExtraSections)
-    ? visibleExtraSections
-    : [];
-
   const handleSaveExtra = async (sectionType) => {
     if (handleSaveExtraSection) {
       await handleSaveExtraSection(sectionType);
@@ -1270,7 +1367,7 @@ export function DeclarationForm({
       <div className="step-header">
         <h2 className="step-title">Declaration & Additional Information</h2>
         <p className="step-description">
-          Add a formal declaration and additional resume sections
+          Add a formal declaration and any additional sections to your resume
         </p>
       </div>
 
@@ -1278,8 +1375,8 @@ export function DeclarationForm({
         <label>Declaration Statement</label>
         <textarea
           rows={4}
-          placeholder="I hereby declare that the information provided above is true..."
-          value={declaration.description || ""}
+          placeholder="I hereby declare that the information provided above is true to the best of my knowledge..."
+          value={resume.data.declaration.description}
           onChange={(e) => updateDeclaration("description", e.target.value)}
         />
       </div>
@@ -1289,22 +1386,24 @@ export function DeclarationForm({
         <input
           type="text"
           placeholder="Full Name"
-          value={declaration.signature || ""}
+          value={resume.data.declaration.signature}
           onChange={(e) => updateDeclaration("signature", e.target.value)}
         />
       </div>
 
-      {safeVisibleExtraSections.map((sectionType) => {
-        const hasItems = getSectionItemCount(data, sectionType) > 0;
+      {visibleExtraSections.map((sectionType) => {
+        const hasItems = getSectionItemCount(resume.data, sectionType) > 0;
+
         if (!hasItems) return null;
 
         switch (sectionType) {
           case "Achievements":
             return (
               <div key="achievements" className="extra-section-container">
-                <h3>Achievements</h3>
-
-                {data.achievements.map((achievement) => (
+                <div className="section-title">
+                  <h3>Achievements</h3>
+                </div>
+                {resume.data.achievements.map((achievement) => (
                   <AchievementCard
                     key={achievement.id}
                     achievement={achievement}
@@ -1312,12 +1411,14 @@ export function DeclarationForm({
                     onDelete={deleteAchievement}
                   />
                 ))}
-
                 <div className="section-buttons-row">
-                  <button onClick={addAchievement}>
+                  <button className="btn-add-inline" onClick={addAchievement}>
                     <FaPlus /> Add Achievement
                   </button>
-                  <button onClick={() => handleSaveExtra("achievements")}>
+                  <button
+                    className="btn-save-section"
+                    onClick={() => handleSaveExtra("achievements")}
+                  >
                     <FaSave /> Save Achievements
                   </button>
                 </div>
@@ -1327,9 +1428,10 @@ export function DeclarationForm({
           case "Certifications":
             return (
               <div key="certifications" className="extra-section-container">
-                <h3>Certifications</h3>
-
-                {data.certifications.map((cert) => (
+                <div className="section-title">
+                  <h3>Certifications</h3>
+                </div>
+                {resume.data.certifications.map((cert) => (
                   <CertificationCard
                     key={cert.id}
                     certification={cert}
@@ -1337,12 +1439,14 @@ export function DeclarationForm({
                     onDelete={deleteCertification}
                   />
                 ))}
-
                 <div className="section-buttons-row">
-                  <button onClick={addCertification}>
+                  <button className="btn-add-inline" onClick={addCertification}>
                     <FaPlus /> Add Certification
                   </button>
-                  <button onClick={() => handleSaveExtra("certifications")}>
+                  <button
+                    className="btn-save-section"
+                    onClick={() => handleSaveExtra("certifications")}
+                  >
                     <FaSave /> Save Certifications
                   </button>
                 </div>
@@ -1352,9 +1456,10 @@ export function DeclarationForm({
           case "Awards":
             return (
               <div key="awards" className="extra-section-container">
-                <h3>Awards</h3>
-
-                {data.awards.map((award) => (
+                <div className="section-title">
+                  <h3>Awards</h3>
+                </div>
+                {resume.data.awards.map((award) => (
                   <AwardCard
                     key={award.id}
                     award={award}
@@ -1362,12 +1467,14 @@ export function DeclarationForm({
                     onDelete={deleteAward}
                   />
                 ))}
-
                 <div className="section-buttons-row">
-                  <button onClick={addAward}>
+                  <button className="btn-add-inline" onClick={addAward}>
                     <FaPlus /> Add Award
                   </button>
-                  <button onClick={() => handleSaveExtra("awards")}>
+                  <button
+                    className="btn-save-section"
+                    onClick={() => handleSaveExtra("awards")}
+                  >
                     <FaSave /> Save Awards
                   </button>
                 </div>
@@ -1377,9 +1484,10 @@ export function DeclarationForm({
           case "Languages":
             return (
               <div key="languages" className="extra-section-container">
-                <h3>Languages</h3>
-
-                {data.languages.map((language) => (
+                <div className="section-title">
+                  <h3>Languages</h3>
+                </div>
+                {resume.data.languages.map((language) => (
                   <LanguageCard
                     key={language.id}
                     language={language}
@@ -1387,12 +1495,14 @@ export function DeclarationForm({
                     onDelete={deleteLanguage}
                   />
                 ))}
-
                 <div className="section-buttons-row">
-                  <button onClick={addLanguage}>
+                  <button className="btn-add-inline" onClick={addLanguage}>
                     <FaPlus /> Add Language
                   </button>
-                  <button onClick={() => handleSaveExtra("languages")}>
+                  <button
+                    className="btn-save-section"
+                    onClick={() => handleSaveExtra("languages")}
+                  >
                     <FaSave /> Save Languages
                   </button>
                 </div>
@@ -1402,9 +1512,10 @@ export function DeclarationForm({
           case "Interests":
             return (
               <div key="interests" className="extra-section-container">
-                <h3>Interests & Hobbies</h3>
-
-                {data.interests.map((interest) => (
+                <div className="section-title">
+                  <h3>Interests & Hobbies</h3>
+                </div>
+                {resume.data.interests.map((interest) => (
                   <InterestCard
                     key={interest.id}
                     interest={interest}
@@ -1412,12 +1523,14 @@ export function DeclarationForm({
                     onDelete={deleteInterest}
                   />
                 ))}
-
                 <div className="section-buttons-row">
-                  <button onClick={addInterest}>
+                  <button className="btn-add-inline" onClick={addInterest}>
                     <FaPlus /> Add Interest
                   </button>
-                  <button onClick={() => handleSaveExtra("interests")}>
+                  <button
+                    className="btn-save-section"
+                    onClick={() => handleSaveExtra("interests")}
+                  >
                     <FaSave /> Save Interests
                   </button>
                 </div>
@@ -1429,30 +1542,38 @@ export function DeclarationForm({
         }
       })}
 
-      {/* ================= Legacy Extra Sections ================= */}
-      {safeExtraSections.map((sec) => (
+      {/* Legacy Extra Sections */}
+      {extraSections.map((sec) => (
         <div key={sec.id} className="extra-section-card">
           <div className="extra-section-header">
             <h4>{sec.type}</h4>
-            <button onClick={() => handleDeleteExtra(sec.id)}>
+            <button
+              className="btn-delete"
+              onClick={() => handleDeleteExtra(sec.id)}
+            >
               <FaTrash />
             </button>
           </div>
-
           <textarea
-            value={sec.content || ""}
-            onChange={(e) => updateExtraContent(sec.id, e.target.value)}
+            className="extra-section-textarea"
             placeholder={`Enter details about your ${sec.type.toLowerCase()}...`}
+            value={sec.content}
+            onChange={(e) => updateExtraContent(sec.id, e.target.value)}
           />
         </div>
       ))}
 
-      {/* ================= Add More Sections ================= */}
+      {/* Add Extra Section Card (Option 5) */}
       <div className="add-section-card">
-        <button onClick={() => setShowExtraModal(true)}>
+        <button
+          className="add-section-card-btn"
+          onClick={() => setShowExtraModal(true)}
+        >
           <FaPlus /> Add More Sections
         </button>
-        <p>Add achievements, certifications, awards, or custom sections</p>
+        <p className="add-section-card-hint">
+          Add achievements, certifications, awards, or other sections
+        </p>
       </div>
     </div>
   );

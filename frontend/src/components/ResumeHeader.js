@@ -1,14 +1,16 @@
 import React from "react";
-
+import "../styles/ResumeHeader.css";
 export const ResumeHeader = ({
   resumeHook,
   setShowTemplateModal,
   setShowShareModal,
+  resumeDownloadRef,
 }) => {
   const {
     bulkSave,
     loading,
     handleDownload,
+    handleDownloadWord,
     isDownloading,
   } = resumeHook;
 
@@ -28,37 +30,28 @@ export const ResumeHeader = ({
           {loading ? "Saving..." : "Save Resume"}
         </button>
 
-        {/* Download PDF */}
         <button
-          onClick={() => handleDownload("pdf")}
+          onClick={() => handleDownload(resumeDownloadRef)}
           disabled={isDownloading}
           className="btn"
         >
           Download PDF
         </button>
 
-        {/* Download Word */}
         <button
-          onClick={() => handleDownload("docx")}
+          onClick={() => handleDownloadWord(resumeDownloadRef)}
           disabled={isDownloading}
           className="btn"
         >
           Download Word
         </button>
 
-        {/* Templates */}
-        <button
-          onClick={() => setShowTemplateModal(true)}
-          className="btn"
-        >
+        <button onClick={() => setShowTemplateModal(true)} className="btn">
           Templates
         </button>
 
         {/* Share */}
-        <button
-          onClick={() => setShowShareModal(true)}
-          className="btn"
-        >
+        <button onClick={() => setShowShareModal(true)} className="btn">
           Share
         </button>
       </div>

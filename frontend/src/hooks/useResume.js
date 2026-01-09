@@ -3,6 +3,8 @@ import { useEffect, useState, useCallback } from "react";
 import toast from "react-hot-toast";
 import { sectionAPI, resumeAPI, summaryAPI } from "../utils/api";
 import { normalizeResumeData } from "../utils/formatter";
+import html2pdf from "html2pdf.js";
+import exportToWord from "../utils/wordExport";
 
 export default function useResume(token) {
   const [resume, setResume] = useState({});
@@ -14,7 +16,6 @@ export default function useResume(token) {
   const [shareableUrl, setShareableUrl] = useState("");
 
   const [visibleExtraSections, setVisibleExtraSections] = useState([]);
-  const [extraSections, setExtraSections] = useState({});
 
   const resumeId = localStorage.getItem("editingResumeId");
 
@@ -26,10 +27,11 @@ export default function useResume(token) {
         setLoading(true);
         const response = await resumeAPI.getFullResume(resumeId);
         const normalized = normalizeResumeData(response.data);
+
         setResume(normalized);
-        setVisibleExtraSections(data.visible_extra_sections || []);
-        setExtraSections(data.extra_sections || {});
-        setSelectedTemplate(data.template_id || null);
+        setVisibleExtraSections(normalized.visible_extra_sections || []);
+        // setExtraSections(normalized.extra_sections || {});
+        setSelectedTemplate(normalized.template_id || null);
       } catch (err) {
         toast.error("Failed to load resume");
       } finally {
@@ -46,7 +48,7 @@ export default function useResume(token) {
 
   const saveCurrentSection = async (section) => {
     if (!resumeId) return;
-
+console.log("Saving section:", section, resume[section]);
     try {
       setLoading(true);
       await sectionAPI.save(resumeId, section, resume[section], token);
@@ -90,26 +92,86 @@ export default function useResume(token) {
   const handleApplyTemplate = async () => {
     try {
       await resumeAPI.update(resumeId, { template_id: previewTemplate }, token);
+
       setSelectedTemplate(previewTemplate);
       toast.success("Template applied");
+
+      return true;
     } catch {
       toast.error("Failed to apply template");
+      return false;
     }
   };
 
-  const handleAddExtra = (sectionKey) => {
-    if (visibleExtraSections.includes(sectionKey)) return;
+  const handleAddExtra = (sectionType) => {
+    const map = {
+      Achievements: "achievements",
+      Certifications: "certifications",
+      Awards: "awards",
+      Languages: "languages",
+      Interests: "interests",
+    };
 
-    setVisibleExtraSections((prev) => [...prev, sectionKey]);
-    setExtraSections((prev) => ({ ...prev, [sectionKey]: [] }));
+    const key = map[sectionType];
+    if (!key) return;
+
+    // show section
+    setVisibleExtraSections((prev) =>
+      prev.includes(sectionType) ? prev : [...prev, sectionType]
+    );
+
+    // initialize resume array
+    setResume((prev) => ({
+      ...prev,
+      [key]: prev[key]?.length ? prev[key] : [{ id: Date.now() }],
+    }));
   };
 
-  const handleDownload = async (type = "pdf") => {
+  const handleDownload = async (ref) => {
+    if (!ref?.current) return toast.error("Failed to generate PDF");
+    console.log("Starting PDF download...", ref);
+    setIsDownloading(true);
+    const toastId = toast.loading("Generating PDF…");
+
     try {
-      setIsDownloading(true);
-      await resumeAPI.download(resumeId, type, token);
-    } catch {
-      toast.error("Download failed");
+      await document.fonts.ready;
+      await new Promise((r) => setTimeout(r, 400));
+
+      await html2pdf()
+        .set({
+          margin: 0,
+          filename: `${resume.basics.full_name || "resume"}.pdf`,
+          image: { type: "png", quality: 1.0 },
+          html2canvas: { scale: 3, useCORS: true, backgroundColor: "#fff" },
+          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+        })
+        .from(ref.current)
+        .save();
+
+      toast.success("PDF downloaded successfully!", { id: toastId });
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to generate PDF", { id: toastId });
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
+  const handleDownloadWord = async (ref) => {
+    if (!ref?.current) return toast.error("Failed to generate Word");
+
+    setIsDownloading(true);
+    const toastId = toast.loading("Generating Word document...");
+
+    try {
+      const fileName = `${resume.basics.full_name || "resume"}.doc`;
+      await exportToWord(ref.current, fileName);
+      toast.success("Word document downloaded successfully!", { id: toastId });
+    } catch (error) {
+      console.error("Word download error:", error);
+      toast.error("Failed to generate Word document: " + error.message, {
+        id: toastId,
+      });
     } finally {
       setIsDownloading(false);
     }
@@ -126,10 +188,12 @@ export default function useResume(token) {
 
   const bulkSave = async () => {
     if (!resumeId) return;
+    console.log("Initiating bulk save for resume:", resumeId, resume);
 
     try {
       setLoading(true);
-      await sectionAPI.bulkSave(resumeId, resume);
+      const resp = await sectionAPI.bulkSave(resumeId, resume, token);
+      console.log("Bulk save response:", resp);
       toast.success("Resume saved successfully");
     } catch (err) {
       toast.error("Failed to save resume");
@@ -148,7 +212,7 @@ export default function useResume(token) {
     shareableUrl,
 
     visibleExtraSections,
-    extraSections,
+    // extraSections,
     bulkSave,
     updateSection,
     saveCurrentSection,
@@ -160,5 +224,6 @@ export default function useResume(token) {
     handleAddExtra,
     handleDownload,
     generateShareLink,
+    handleDownloadWord,
   };
 }

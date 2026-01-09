@@ -1,5 +1,5 @@
 import React from "react";
-
+import "../styles/step-navigation.css"
 export const StepNavigation = ({
   currentStep,
   setCurrentStep,
@@ -15,9 +15,7 @@ export const StepNavigation = ({
         Back
       </button>
 
-      <button onClick={() => saveCurrentSection()}>
-        Save
-      </button>
+      <button onClick={() => saveCurrentSection(currentStep)}>Save</button>
 
       <button
         disabled={currentStep === totalSteps - 1}

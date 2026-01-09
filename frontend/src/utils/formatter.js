@@ -11,31 +11,52 @@ export const formatDateForBackend = (date) => {
   return new Date(date).toISOString();
 };
 
-export const normalizeResumeData = (data = {}) => {
-  const dataa = data.content;
-  return {
-    basics: dataa.contactinformation[0] || {},
+export const normalizeResumeData = (apiResponse = {}) => {
+  const { resume, content } = apiResponse;
 
-    skills: Array.isArray(dataa.skills)
-      ? dataa.skills.map((s) => s.skill_name)
+  const normalizedContent = {
+    basics: content?.contactinformation?.[0] || {},
+
+    skills: Array.isArray(content?.skills)
+      ? content.skills.map((s) => s.skill_name)
       : [],
-    experience: normalizeList(dataa.experience),
-    projects: normalizeList(dataa.projects),
-    education: normalizeList(dataa.education),
 
-    personalStatement: Array.isArray(dataa.personalstatements)
-      ? dataa.personalstatements[0]?.content || ""
-      : dataa.personal_statement || dataa.personalStatement || "",
+    experience: normalizeList(content?.experience),
+    projects: normalizeList(content?.projects),
+    education: normalizeList(content?.education),
 
-    declaration: Array.isArray(dataa.declarations)
-      ? dataa.declarations[0] || {}
-      : dataa.declaration || {},
+    personalStatement: content?.personalstatements?.[0]?.content || "",
 
-    achievements: normalizeList(dataa.achievements),
-    awards: normalizeList(dataa.awards),
-    languages: normalizeList(dataa.languages),
-    certifications: normalizeList(dataa.certifications),
-    interests: normalizeList(dataa.interests),
+    declaration: content?.declarations?.[0] || {},
+
+    achievements: normalizeList(content?.achievements),
+    awards: normalizeList(content?.awards),
+    languages: normalizeList(content?.languages),
+    certifications: normalizeList(content?.certifications),
+    interests: normalizeList(content?.interests),
+  };
+
+  return {
+    ...normalizedContent,
+
+    meta: resume || {},
+
+    templateId: resume?.template_id || 1,
+
+    sectionsOrder: resume?.sections_order || [
+      "basics",
+      "personal",
+      "skills",
+      "experience",
+      "projects",
+      "education",
+      "declaration",
+      "certifications",
+      "achievements",
+      "awards",
+      "languages",
+      "interests",
+    ],
   };
 };
 

@@ -7,24 +7,24 @@ const pool = mysql.createPool({
   host: process.env.DB_HOST || "localhost",
   user: process.env.DB_USER || "root",
   password: process.env.DB_PASSWORD || "",
-  database: process.env.DB_NAME || "resume_builder",
+  database: process.env.DB_NAME || "rb_db",
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
 });
 
-// ✅ Test connection on startup
+//  Test connection on startup
 (async () => {
   try {
     const conn = await pool.getConnection();
-    console.log("✅ MySQL connected successfully!");
+    console.log(" MySQL connected successfully!");
     const [result] = await conn.query("SELECT 1");
-    if (result) console.log("✅ Connection test query successful.");
+    if (result) console.log(" Connection test query successful.");
     conn.release();
   } catch (err) {
-    console.error("❌ MySQL connection failed!");
+    console.error(" MySQL connection failed!");
     console.error("Error details:", err.message);
-    process.exit(1); // stop the server if DB isn't reachable
+    process.exit(1); 
   }
 })();
 

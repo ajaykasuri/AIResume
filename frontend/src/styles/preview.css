@@ -1,0 +1,171 @@
+/* preview.css - Resume preview styles */
+.preview {
+  width: 90%;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 24px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.preview h3 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+.preview h4 {
+  margin: 20px 0 8px;
+  color: #3f51b5;
+}
+
+.preview-block {
+  margin-bottom: 18px;
+}
+
+.preview-block a {
+  color: #3f51b5;
+  text-decoration: underline;
+}
+
+/* Quill output in preview */
+.preview .ql-editor {
+  padding: 0;
+  min-height: auto;
+}
+
+.preview .ql-editor p {
+  margin: 4px 0;
+}
+
+/* Experience, Project, and Education Cards in Preview */
+.experience-list,
+.project-list,
+.education-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.experience-card,
+.project-card,
+.education-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.experience-card:hover,
+.project-card:hover,
+.education-card:hover {
+  border-color: #4f46e5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.experience-header,
+.project-header,
+.education-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.experience-title h4,
+.project-title h4,
+.education-title h4 {
+  margin: 0 0 0.25rem 0;
+  color: #1f2937;
+  font-size: 1.125rem;
+}
+
+.experience-company,
+.education-institution {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.project-link {
+  color: #4f46e5;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.project-link:hover {
+  text-decoration: underline;
+}
+
+.experience-details,
+.education-details {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.experience-detail,
+.education-detail {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.experience-description,
+.project-description {
+  color: #4b5563;
+  line-height: 1.5;
+  font-size: 0.875rem;
+}
+
+/* Extra Sections in Preview */
+.extra-section-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.extra-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.extra-section-header h4 {
+  margin: 0;
+  color: #374151;
+}
+
+.extra-section-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 2px dashed #e2e8f0;
+  margin: 1.5rem 0;
+}
+
+.empty-state p {
+  color: #64748b;
+  font-size: 1.1rem;
+  margin: 0;
+  font-style: italic;
+}

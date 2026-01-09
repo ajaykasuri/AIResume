@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import "../styles/modal.css"; // We'll override with inline modern styles
+import "../styles/modal.css"; 
 
 export default function ModalContent({ type, data, onSave, onClose }) {
   const isExp = type === "exp";

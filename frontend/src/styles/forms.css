@@ -1,0 +1,703 @@
+/* forms.css - Updated with all fixes */
+
+/* Country Dropdown */
+select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: white;
+  cursor: pointer;
+  transition: border 0.2s;
+}
+
+select:focus {
+  outline: none;
+  border-color: #3f51b5;
+  box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.1);
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  width: 50px;
+  height: 24px;
+  background: #e0e0e0;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  position: relative;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+
+.toggle-switch.on {
+  background: #3f51b5;
+}
+
+.toggle-slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.toggle-knob {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  top: -10px;
+  left: -20px;
+  transition: transform 0.3s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.toggle-switch.on .toggle-knob {
+  transform: translateX(26px);
+}
+
+/* Editor Header */
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.editor-header label {
+  margin-bottom: 0;
+}
+
+/* ReactQuill Editor Styles */
+.rich-text-editor-container {
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.rich-text-editor-container .ql-toolbar {
+  border-bottom: 1px solid #ddd;
+  background: #f8f9fa;
+  border-radius: 6px 6px 0 0;
+}
+
+.rich-text-editor-container .ql-container {
+  border: none;
+  min-height: 150px;
+  border-radius: 0 0 6px 6px;
+}
+
+.rich-text-editor-container .ql-editor {
+  min-height: 120px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Button Styles */
+.btn-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.btn-add-right {
+  background: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.btn-add-right:hover {
+  background: #303f9f;
+  transform: translateY(-1px);
+}
+
+.btn-add-compact {
+  background: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.btn-add-compact:hover {
+  background: #303f9f;
+}
+
+.btn-add-inline {
+  background: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.btn-add-inline:hover {
+  background: #303f9f;
+}
+
+/* Section Buttons Row */
+.section-buttons-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+
+.btn-save-section {
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.btn-save-section:hover {
+  background: #218838;
+  transform: translateY(-1px);
+}
+
+/* Add Section Card (Option 5) */
+.add-section-card {
+  margin-top: 24px;
+  padding: 24px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.add-section-card:hover {
+  background: #edf2f7;
+  border-color: #cbd5e0;
+}
+
+.add-section-card-btn {
+  background: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+  margin-bottom: 8px;
+}
+
+.add-section-card-btn:hover {
+  background: #303f9f;
+  transform: translateY(-1px);
+}
+
+.add-section-card-hint {
+  font-size: 13px;
+  color: #718096;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Extra Section Container */
+.extra-section-container {
+  margin-top: 24px;
+  padding: 20px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.section-title {
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.section-title h3 {
+  margin: 0;
+  color: #2d3748;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Date Picker Fixes */
+.date-picker-input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  background: white;
+}
+
+.react-datepicker__year-wrapper {
+  max-width: 280px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.react-datepicker__year-text {
+  width: 70px;
+  margin: 2px;
+  padding: 8px;
+  text-align: center;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.react-datepicker__year-text:hover {
+  background: #f1f5f9;
+}
+
+.react-datepicker__year-text--selected {
+  background: #3f51b5 !important;
+  color: white !important;
+}
+
+/* Character Count */
+.char-count {
+  font-size: 12px;
+  color: #718096;
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* AI Summary Section */
+.ai-summary-section {
+  margin-top: 20px;
+  padding: 16px;
+  background: linear-gradient(135deg, #667eea0d 0%, #764ba20d 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.ai-generate-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.ai-generate-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.ai-generate-btn:disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.7;
+}
+
+.ai-summary-hint {
+  font-size: 13px;
+  color: #718096;
+  margin-top: 8px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* Experience & Project Cards */
+.experience-card,
+.project-card,
+.education-card,
+.extra-section-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+  transition: box-shadow 0.2s;
+}
+
+.experience-card:hover,
+.project-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.experience-header,
+.project-header,
+.education-header,
+.extra-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.experience-title h4,
+.project-title h4,
+.education-title h4 {
+  margin: 0 0 8px 0;
+  font-size: 1.1rem;
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.inline-input {
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  width: 100%;
+  background: #f8fafc;
+  transition: all 0.2s;
+}
+
+.inline-input:focus {
+  outline: none;
+  border-color: #3f51b5;
+  background: white;
+  box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.1);
+}
+
+.btn-delete {
+  background: #fed7d7;
+  color: #c53030;
+  border: none;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.btn-delete:hover {
+  background: #feb2b2;
+}
+
+/* Dates Layout */
+.experience-dates,
+.project-dates,
+.education-dates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+/* Form Elements */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border 0.2s;
+  background: white;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #3f51b5;
+  box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.1);
+}
+
+/* Skill Chips */
+.skill-chips {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  background: #3f51b5;
+  color: white;
+  border-radius: 16px;
+  padding: 6px 12px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chip button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  opacity: 0.8;
+}
+
+.chip button:hover {
+  opacity: 1;
+}
+
+/* Skill Input */
+.skill-input-wrapper {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.skill-input-wrapper.compact {
+  margin-bottom: 8px;
+}
+
+.skill-input {
+  flex: 1;
+}
+
+/* Checkbox */
+.checkbox-group {
+  margin: 16px 0;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+  color: #4a5568;
+}
+
+.checkbox-label input {
+  opacity: 0;
+  position: absolute;
+}
+
+.checkmark {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #3f51b5;
+  border-radius: 4px;
+  margin-right: 10px;
+  position: relative;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.checkbox-label input:checked ~ .checkmark {
+  background: #3f51b5;
+}
+
+.checkbox-label input:checked ~ .checkmark::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Optional Fields */
+.optional-fields-toggle {
+  margin: 16px 0;
+  padding: 12px;
+  background: #f1f5f9;
+  border-radius: 6px;
+  border-left: 4px solid #3f51b5;
+}
+
+.optional-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #34a853;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Empty States */
+.empty-state {
+  text-align: center;
+  padding: 24px;
+  color: #718096;
+  font-style: italic;
+  background: #f8fafc;
+  border-radius: 6px;
+  border: 1px dashed #cbd5e0;
+}
+
+.empty-state.small {
+  padding: 12px;
+  font-size: 13px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .experience-dates,
+  .project-dates,
+  .education-dates,
+  .optional-fields {
+    grid-template-columns: 1fr;
+  }
+  
+  .section-buttons-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .btn-add-inline,
+  .btn-save-section {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .editor-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .toggle-switch {
+    align-self: flex-end;
+  }
+}
+
+/* Validation error styles */
+.input-error {
+  border-color: #f56565 !important;
+  background-color: #fff5f5 !important;
+}
+
+.input-error:focus {
+  border-color: #f56565 !important;
+  box-shadow: 0 0 0 3px rgba(245, 101, 101, 0.1) !important;
+}
+
+.error-text {
+  display: block;
+  color: #f56565;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  padding-left: 0.25rem;
+}
+
+/* Ensure existing form styles work with validation */
+.form-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: white;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+/* For required fields */
+.form-group input[required] {
+  border-left: 3px solid #4299e1;
+}
+
+.form-group input.input-error[required] {
+  border-left: 3px solid #f56565;
+}

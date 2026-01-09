@@ -1,6 +1,5 @@
-// templates/ElegantTemplateWord.jsx
 import React from "react";
-
+ 
 const ElegantTemplateWord = ({ data = {} }) => {
   const {
     basics = {},
@@ -16,7 +15,7 @@ const ElegantTemplateWord = ({ data = {} }) => {
     awards = [],
     interests = [],
   } = data;
-
+ 
   const formatDate = (dateString) => {
     if (!dateString) return "";
     try {
@@ -29,7 +28,34 @@ const ElegantTemplateWord = ({ data = {} }) => {
       return dateString;
     }
   };
-
+ 
+  const formatYear = (dateString) => {
+    if (!dateString) return "";
+    try {
+      const date = new Date(dateString);
+      return date.getFullYear().toString();
+    } catch (e) {
+      return dateString;
+    }
+  };
+ 
+  // Check if section has content
+  const hasContent = (section) => {
+    if (Array.isArray(section)) {
+      return section.length > 0 && section.some(item =>
+        Object.values(item).some(value =>
+          value && value.toString().trim() !== ''
+        )
+      );
+    }
+    if (typeof section === 'object' && section !== null) {
+      return Object.values(section).some(value =>
+        value && value.toString().trim() !== ''
+      );
+    }
+    return section && section.toString().trim() !== '';
+  };
+ 
   const Section = ({ title, children, noHr }) => (
     <div style={{ marginBottom: "20px" }}>
       <div
@@ -56,7 +82,34 @@ const ElegantTemplateWord = ({ data = {} }) => {
       )}
     </div>
   );
-
+ 
+  const SidebarSection = ({ title, children, noHr }) => (
+    <div style={{ marginBottom: "20px" }}>
+      <div
+        style={{
+          fontSize: "11pt",
+          fontWeight: "bold",
+          color: "#2e7d32",
+          marginBottom: "8px",
+          borderBottom: "1px solid #2e7d32",
+          paddingBottom: "2px",
+        }}
+      >
+        {title}
+      </div>
+      {children}
+      {!noHr && (
+        <hr
+          style={{
+            border: "none",
+            borderTop: "1px solid #e0e0e0",
+            margin: "15px 0",
+          }}
+        />
+      )}
+    </div>
+  );
+ 
   return (
     <table
       width="100%"
@@ -68,6 +121,7 @@ const ElegantTemplateWord = ({ data = {} }) => {
         fontSize: "11pt",
         borderCollapse: "collapse",
         width: "100%",
+        tableLayout: "fixed",
       }}
     >
       <tr>
@@ -77,18 +131,19 @@ const ElegantTemplateWord = ({ data = {} }) => {
           valign="top"
           style={{
             backgroundColor: "#ffffff",
-            padding: "20px",
-            borderRight: "1px solid #cccccc",
+            padding: "25px 20px",
+            border: "none",
+            verticalAlign: "top",
           }}
         >
           {/* Name and Title */}
-          <div style={{ marginBottom: "20px" }}>
+          <div style={{ marginBottom: "25px" }}>
             <div
               style={{
-                fontSize: "20pt",
+                fontSize: "22pt",
                 fontWeight: "bold",
                 color: "#000000",
-                marginBottom: "5px",
+                marginBottom: "8px",
                 lineHeight: "1.1",
               }}
             >
@@ -96,521 +151,494 @@ const ElegantTemplateWord = ({ data = {} }) => {
             </div>
             <div
               style={{
-                fontSize: "12pt",
-                color: "#666666",
+                fontSize: "13pt",
+                color: "#2e7d32",
+                fontWeight: "600",
                 fontStyle: "italic",
               }}
             >
               {basics.jobTitle || "Your Job Title"}
             </div>
           </div>
-
+ 
           {/* Contact Information */}
-          <table
-            width="100%"
-            cellPadding="3"
-            cellSpacing="0"
-            style={{ marginBottom: "20px", borderCollapse: "collapse" }}
-          >
-            <tbody>
+          <SidebarSection>
+            <div >
               {basics.email && (
-                <tr>
-                  <td
-                    width="20"
-                    valign="top"
-                    style={{ color: "#000000", padding: "2px" }}
-                  >
-                    ✉️
-                  </td>
-                  <td
-                    style={{
-                      color: "#000000",
-                      fontSize: "9pt",
-                      padding: "2px",
-                    }}
-                  >
-                    {basics.email}
-                  </td>
-                </tr>
+                <div style={{ marginBottom: "8px", fontSize: "10pt", color: "#000000" }}>
+                  {basics.email}
+                </div>
               )}
               {basics.phone && (
-                <tr>
-                  <td
-                    width="20"
-                    valign="top"
-                    style={{ color: "#000000", padding: "2px" }}
-                  >
-                    📞
-                  </td>
-                  <td
-                    style={{
-                      color: "#000000",
-                      fontSize: "9pt",
-                      padding: "2px",
-                    }}
-                  >
-                    {basics.phone}
-                  </td>
-                </tr>
+                <div style={{ marginBottom: "8px", fontSize: "10pt", color: "#000000" }}>
+                  {basics.phone}
+                </div>
               )}
-              {basics.city && (
-                <tr>
-                  <td
-                    width="20"
-                    valign="top"
-                    style={{ color: "#000000", padding: "2px" }}
-                  >
-                    📍
-                  </td>
-                  <td
-                    style={{
-                      color: "#000000",
-                      fontSize: "9pt",
-                      padding: "2px",
-                    }}
-                  >
-                    {basics.city}
-                    {basics.country ? `, ${basics.country}` : ""}
-                  </td>
-                </tr>
+              {(basics.city || basics.country) && (
+                <div style={{ marginBottom: "8px", fontSize: "10pt", color: "#000000" }}>
+                  {basics.city}
+                  {basics.city && basics.country ? ", " : ""}
+                  {basics.country}
+                </div>
               )}
               {basics.linkedIn && (
-                <tr>
-                  <td
-                    width="20"
-                    valign="top"
-                    style={{ color: "#000000", padding: "2px" }}
-                  >
-                    🔗
-                  </td>
-                  <td
-                    style={{
-                      color: "#000000",
-                      fontSize: "9pt",
-                      padding: "2px",
-                    }}
-                  >
-                    {basics.linkedIn}
-                  </td>
-                </tr>
+                <div style={{ marginBottom: "8px", fontSize: "10pt", color: "#000000" }}>
+                  {basics.linkedIn}
+                </div>
               )}
               {basics.github && (
-                <tr>
-                  <td
-                    width="20"
-                    valign="top"
-                    style={{ color: "#000000", padding: "2px" }}
-                  >
-                    🔗
-                  </td>
-                  <td
-                    style={{
-                      color: "#000000",
-                      fontSize: "9pt",
-                      padding: "2px",
-                    }}
-                  >
-                    {basics.github}
-                  </td>
-                </tr>
+                <div style={{ marginBottom: "8px", fontSize: "10pt", color: "#000000" }}>
+                  {basics.github}
+                </div>
               )}
-            </tbody>
-          </table>
-
+              {basics.website && (
+                <div style={{ marginBottom: "8px", fontSize: "10pt", color: "#000000" }}>
+                  {basics.website}
+                </div>
+              )}
+            </div>
+          </SidebarSection>
+ 
           {/* Profile in Sidebar */}
-          {personalStatement && (
-            <div style={{ marginBottom: "20px" }}>
+          {hasContent(personalStatement) && (
+            <SidebarSection title="PROFILE">
               <div
                 style={{
-                  fontSize: "11pt",
-                  fontWeight: "bold",
-                  color: "#2e7d32",
-                  marginBottom: "8px",
-                  borderBottom: "1px solid #2e7d32",
-                  paddingBottom: "2px",
+                  fontSize: "9pt",
+                  color: "#000000",
+                  lineHeight: "1.5",
+                  textAlign: "justify"
                 }}
-              >
-                PROFILE
-              </div>
-              <div
-                style={{ fontSize: "9pt", color: "#000000", lineHeight: "1.4" }}
               >
                 {personalStatement}
               </div>
-              <hr
-                style={{
-                  border: "none",
-                  borderTop: "1px solid #e0e0e0",
-                  margin: "15px 0",
-                }}
-              />
-            </div>
+            </SidebarSection>
           )}
-
-          {/* Languages */}
-          {languages && languages.length > 0 && (
-            <div style={{ marginBottom: "20px" }}>
-              <div
-                style={{
-                  fontSize: "11pt",
-                  fontWeight: "bold",
-                  color: "#2e7d32",
-                  marginBottom: "8px",
-                  borderBottom: "1px solid #2e7d32",
-                  paddingBottom: "2px",
-                }}
-              >
-                LANGUAGES
-              </div>
-              <div style={{ fontSize: "9pt", color: "#000000" }}>
-                {languages.map((lang, i) => (
-                  <div key={i} style={{ marginBottom: "4px" }}>
-                    <strong>{lang.name}</strong> - {lang.proficiency}
-                  </div>
-                ))}
-              </div>
-              <hr
-                style={{
-                  border: "none",
-                  borderTop: "1px solid #e0e0e0",
-                  margin: "15px 0",
-                }}
-              />
-            </div>
-          )}
-
+ 
           {/* Skills */}
-          {skills.length > 0 && (
-            <div style={{ marginBottom: "20px" }}>
-              <div
-                style={{
-                  fontSize: "11pt",
-                  fontWeight: "bold",
-                  color: "#2e7d32",
-                  marginBottom: "8px",
-                  borderBottom: "1px solid #2e7d32",
-                  paddingBottom: "2px",
-                }}
-              >
-                SKILLS
-              </div>
+          {hasContent(skills) && (
+            <SidebarSection title="SKILLS">
               <div style={{ fontSize: "9pt", color: "#000000" }}>
                 {skills.map((skill, index) => (
                   <div
                     key={index}
-                    style={{ marginBottom: "4px", paddingLeft: "20px" }}
+                    style={{
+                      marginBottom: "6px",
+                      paddingLeft: "15px",
+                      lineHeight: "1.3"
+                    }}
                   >
                     • {skill}
                   </div>
                 ))}
               </div>
-              <hr
-                style={{
-                  border: "none",
-                  borderTop: "1px solid #e0e0e0",
-                  margin: "15px 0",
-                }}
-              />
-            </div>
+            </SidebarSection>
           )}
-
-          {/* Interests */}
-          {interests && interests.length > 0 && (
-            <div style={{ marginBottom: "20px" }}>
-              <div
-                style={{
-                  fontSize: "11pt",
-                  fontWeight: "bold",
-                  color: "#2e7d32",
-                  marginBottom: "8px",
-                  borderBottom: "1px solid #2e7d32",
-                  paddingBottom: "2px",
-                }}
-              >
-                INTERESTS
-              </div>
+ 
+          {/* Languages */}
+          {hasContent(languages) && (
+            <SidebarSection title="LANGUAGES">
               <div style={{ fontSize: "9pt", color: "#000000" }}>
-                {interests.map((interest, i) => (
-                  <div key={i} style={{ marginBottom: "4px" }}>
-                    <strong>{interest.name}</strong>
-                    {interest.description && ` - ${interest.description}`}
+                {languages.map((lang, i) => (
+                  <div key={i} style={{ marginBottom: "6px" }}>
+                    <strong>{lang.name}</strong> - {lang.proficiency}
+                    {lang.certificate && (
+                      <div style={{ fontSize: "8pt", color: "#666666", marginTop: "2px" }}>
+                        {lang.certificate}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
-            </div>
+            </SidebarSection>
+          )}
+ 
+          {/* Certifications */}
+          {hasContent(certifications) && (
+            <SidebarSection title="CERTIFICATIONS">
+              <div style={{ fontSize: "9pt", color: "#000000" }}>
+                {certifications.map((cert, i) => (
+                  <div key={i} style={{ marginBottom: "8px" }}>
+                    <div style={{ fontWeight: "bold", marginBottom: "2px" }}>
+                      {cert.name}
+                    </div>
+                    <div style={{ color: "#666666", marginBottom: "2px" }}>
+                      {cert.issuer}
+                      {cert.dateObtained && ` • ${formatDate(cert.dateObtained)}`}
+                    </div>
+                    {cert.credentialId && (
+                      <div style={{ fontSize: "8pt", color: "#666666" }}>
+                        ID: {cert.credentialId}
+                      </div>
+                    )}
+                    {cert.expirationDate && (
+                      <div style={{ fontSize: "8pt", color: "#666666" }}>
+                        Expires: {formatDate(cert.expirationDate)}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </SidebarSection>
+          )}
+ 
+          {/* Interests */}
+          {hasContent(interests) && (
+            <SidebarSection title="INTERESTS" noHr={true}>
+              <div style={{ fontSize: "9pt", color: "#000000" }}>
+                {interests.map((interest, i) => (
+                  <div key={i} style={{ marginBottom: "6px" }}>
+                    <strong>{interest.name}</strong>
+                    {interest.description && (
+                      <div style={{ color: "#666666", marginTop: "2px" }}>
+                        {interest.description}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </SidebarSection>
           )}
         </td>
-
+ 
         {/* Right Column */}
         <td
           width="65%"
           valign="top"
           style={{
-            backgroundColor: "#3f8143ff",
+            backgroundColor: "#2e7d32",
             color: "#ffffff",
-            padding: "20px",
+            padding: "25px 20px",
+            border: "none",
+            verticalAlign: "top",
           }}
         >
           {/* Experience */}
-          {experience && experience.length > 0 && (
+          {hasContent(experience) && (
             <Section title="PROFESSIONAL EXPERIENCE">
               {experience.map((exp, i) => (
-                <div key={i} style={{ marginBottom: "15px" }}>
+                <div key={i} style={{ marginBottom: "18px" }}>
                   <div
                     style={{
                       fontWeight: "bold",
-                      fontSize: "10pt",
-                      marginBottom: "3px",
+                      fontSize: "11pt",
+                      marginBottom: "4px",
+                      color: "#ffffff",
                     }}
                   >
                     {exp.title}
                   </div>
                   <div
                     style={{
-                      fontSize: "9pt",
+                      fontSize: "10pt",
                       color: "#e8f5e8",
                       marginBottom: "3px",
                     }}
                   >
-                    {exp.employer} {exp.location ? ", " + exp.location : ""}
+                    {exp.employer}
+                    {exp.location ? `, ${exp.location}` : ""}
                   </div>
                   <div
                     style={{
-                      fontSize: "8pt",
+                      fontSize: "9pt",
                       color: "#c8e6c9",
-                      marginBottom: "5px",
+                      marginBottom: "8px",
+                      fontStyle: "italic",
                     }}
                   >
-                    {exp.from ? formatDate(exp.from) : ""} -
-                    {exp.current
-                      ? " Present"
-                      : exp.to
-                      ? formatDate(exp.to)
-                      : ""}
+                    {formatDate(exp.from)} – {exp.current ? "Present" : formatDate(exp.to)}
                   </div>
                   {exp.description && (
                     <div
                       style={{
-                        fontSize: "9pt",
-                        lineHeight: "1.4",
+                        fontSize: "10pt",
+                        lineHeight: "1.5",
                         marginBottom: "10px",
+                        color: "#ffffff",
                       }}
                     >
-                      {exp.description}
+                      {exp.description.split('\n').map((line, idx) => (
+                        <div key={idx} style={{ marginBottom: "4px" }}>
+                          {line}
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>
               ))}
             </Section>
           )}
-
+ 
           {/* Projects */}
-          {projects && projects.length > 0 && (
+          {hasContent(projects) && (
             <Section title="PROJECTS">
               {projects.map((proj, i) => (
-                <div key={i} style={{ marginBottom: "15px" }}>
+                <div key={i} style={{ marginBottom: "18px" }}>
                   <div
                     style={{
                       fontWeight: "bold",
-                      fontSize: "10pt",
-                      marginBottom: "3px",
+                      fontSize: "11pt",
+                      marginBottom: "4px",
+                      color: "#ffffff",
                     }}
                   >
                     {proj.title}
                   </div>
-                  {proj.link && (
-                    <div
-                      style={{
-                        fontSize: "8pt",
-                        color: "#e8f5e8",
-                        marginBottom: "3px",
-                      }}
-                    >
-                      <a
-                        href={proj.link}
+                 
+                  {/* Project Details */}
+                  <div style={{ marginBottom: "6px" }}>
+                    {proj.link && (
+                      <div
                         style={{
+                          fontSize: "9pt",
                           color: "#e8f5e8",
-                          textDecoration: "underline",
+                          marginBottom: "2px",
                         }}
                       >
-                        {proj.link}
-                      </a>
+                        <a
+                          href={proj.link}
+                          style={{
+                            color: "#e8f5e8",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          {proj.link}
+                        </a>
+                      </div>
+                    )}
+                   
+                    {/* Project Period */}
+                    <div
+                      style={{
+                        fontSize: "9pt",
+                        color: "#c8e6c9",
+                        marginBottom: "4px",
+                        fontStyle: "italic",
+                      }}
+                    >
+                      {formatDate(proj.from)} – {proj.current ? "Present" : formatDate(proj.to)}
                     </div>
-                  )}
+ 
+                    {/* Client and Team */}
+                    {(proj.clientName || proj.teamSize) && (
+                      <div
+                        style={{
+                          fontSize: "9pt",
+                          color: "#e8f5e8",
+                          marginBottom: "4px",
+                        }}
+                      >
+                        {proj.clientName && `Client: ${proj.clientName}`}
+                        {proj.clientName && proj.teamSize && " | "}
+                        {proj.teamSize && `Team Size: ${proj.teamSize}`}
+                      </div>
+                    )}
+ 
+                    {/* Skills Used */}
+                    {proj.skillsUsed && proj.skillsUsed.length > 0 && (
+                      <div
+                        style={{
+                          fontSize: "9pt",
+                          color: "#c8e6c9",
+                          marginBottom: "6px",
+                        }}
+                      >
+                        <strong>Technologies:</strong> {proj.skillsUsed.join(", ")}
+                      </div>
+                    )}
+                  </div>
+ 
+                  {/* Project Description */}
                   {proj.description && (
-                    <div style={{ fontSize: "9pt", lineHeight: "1.4" }}>
-                      {proj.description}
+                    <div
+                      style={{
+                        fontSize: "10pt",
+                        lineHeight: "1.5",
+                        color: "#ffffff",
+                      }}
+                    >
+                      {proj.description.split('\n').map((line, idx) => (
+                        <div key={idx} style={{ marginBottom: "4px" }}>
+                          {line}
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>
               ))}
             </Section>
           )}
-
+ 
           {/* Education */}
-          {education && education.length > 0 && (
+          {hasContent(education) && (
             <Section title="EDUCATION">
               {education.map((edu, i) => (
-                <div key={i} style={{ marginBottom: "15px" }}>
+                <div key={i} style={{ marginBottom: "18px" }}>
                   <div
                     style={{
                       fontWeight: "bold",
-                      fontSize: "10pt",
-                      marginBottom: "3px",
+                      fontSize: "11pt",
+                      marginBottom: "4px",
+                      color: "#ffffff",
                     }}
                   >
                     {edu.degree}
                   </div>
                   <div
                     style={{
-                      fontSize: "9pt",
+                      fontSize: "10pt",
                       color: "#e8f5e8",
                       marginBottom: "3px",
                     }}
                   >
                     {edu.institution}
                   </div>
-                  <div style={{ fontSize: "8pt", color: "#c8e6c9" }}>
-                    {edu.from ? formatDate(edu.from) : ""} -
-                    {edu.current
-                      ? " Present"
-                      : edu.to
-                      ? formatDate(edu.to)
-                      : ""}
+                  <div
+                    style={{
+                      fontSize: "9pt",
+                      color: "#c8e6c9",
+                      fontStyle: "italic"
+                    }}
+                  >
+                    {formatYear(edu.from)} – {edu.current ? "Present" : formatYear(edu.to)}
                   </div>
                 </div>
               ))}
             </Section>
           )}
-
+ 
           {/* Achievements */}
-          {achievements && achievements.length > 0 && (
+          {hasContent(achievements) && (
             <Section title="ACHIEVEMENTS">
               {achievements.map((achievement, i) => (
                 <div key={i} style={{ marginBottom: "15px" }}>
                   <div
                     style={{
                       fontWeight: "bold",
-                      fontSize: "10pt",
-                      marginBottom: "3px",
+                      fontSize: "11pt",
+                      marginBottom: "4px",
+                      color: "#ffffff",
                     }}
                   >
                     {achievement.title}
-                  </div>
-                  {achievement.date && (
-                    <div
-                      style={{
-                        fontSize: "8pt",
-                        color: "#c8e6c9",
-                        marginBottom: "3px",
-                      }}
-                    >
-                      {achievement.date}
-                    </div>
-                  )}
-                  {achievement.description && (
-                    <div style={{ fontSize: "9pt", lineHeight: "1.4" }}>
-                      {achievement.description}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </Section>
-          )}
-
-          {/* Certifications */}
-          {certifications && certifications.length > 0 && (
-            <Section title="CERTIFICATIONS">
-              {certifications.map((cert, i) => (
-                <div key={i} style={{ marginBottom: "15px" }}>
-                  <div
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: "10pt",
-                      marginBottom: "3px",
-                    }}
-                  >
-                    {cert.name}
                   </div>
                   <div
                     style={{
                       fontSize: "9pt",
                       color: "#e8f5e8",
-                      marginBottom: "3px",
+                      marginBottom: "4px",
                     }}
                   >
-                    {cert.issuer}
+                    {achievement.issuer}
+                    {achievement.date && ` • ${formatDate(achievement.date)}`}
+                    {achievement.category && ` • ${achievement.category}`}
                   </div>
-                  {cert.dateObtained && (
-                    <div style={{ fontSize: "8pt", color: "#c8e6c9" }}>
-                      {cert.dateObtained}
+                  {achievement.description && (
+                    <div
+                      style={{
+                        fontSize: "10pt",
+                        lineHeight: "1.5",
+                        color: "#ffffff"
+                      }}
+                    >
+                      {achievement.description}
+                    </div>
+                  )}
+                  {achievement.link && (
+                    <div style={{
+                      fontSize: "9pt",
+                      marginTop: "4px",
+                    }}>
+                      <a href={achievement.link} style={{
+                        color: "#e8f5e8",
+                        textDecoration: "underline",
+                      }}>
+                        {achievement.link}
+                      </a>
                     </div>
                   )}
                 </div>
               ))}
             </Section>
           )}
-
+ 
           {/* Awards */}
-          {awards && awards.length > 0 && (
+          {hasContent(awards) && (
             <Section title="AWARDS">
               {awards.map((award, i) => (
                 <div key={i} style={{ marginBottom: "15px" }}>
                   <div
                     style={{
                       fontWeight: "bold",
-                      fontSize: "10pt",
-                      marginBottom: "3px",
+                      fontSize: "11pt",
+                      marginBottom: "4px",
+                      color: "#ffffff",
                     }}
                   >
                     {award.title}
                   </div>
-                  {award.issuer && (
-                    <div
-                      style={{
-                        fontSize: "9pt",
-                        color: "#e8f5e8",
-                        marginBottom: "3px",
-                      }}
-                    >
-                      {award.issuer}
-                    </div>
-                  )}
-                  {award.date && (
-                    <div
-                      style={{
-                        fontSize: "8pt",
-                        color: "#c8e6c9",
-                        marginBottom: "3px",
-                      }}
-                    >
-                      {award.date}
-                    </div>
-                  )}
+                  <div
+                    style={{
+                      fontSize: "9pt",
+                      color: "#e8f5e8",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    {award.issuer}
+                    {award.date && ` • ${formatDate(award.date)}`}
+                  </div>
                   {award.description && (
-                    <div style={{ fontSize: "9pt", lineHeight: "1.4" }}>
+                    <div
+                      style={{
+                        fontSize: "10pt",
+                        lineHeight: "1.5",
+                        color: "#ffffff"
+                      }}
+                    >
                       {award.description}
+                    </div>
+                  )}
+                  {award.link && (
+                    <div style={{
+                      fontSize: "9pt",
+                      marginTop: "4px",
+                    }}>
+                      <a href={award.link} style={{
+                        color: "#e8f5e8",
+                        textDecoration: "underline",
+                      }}>
+                        {award.link}
+                      </a>
                     </div>
                   )}
                 </div>
               ))}
             </Section>
           )}
-
+ 
           {/* Declaration */}
-          {declaration && declaration.description && (
+          {hasContent(declaration) && (
             <Section title="DECLARATION" noHr={true}>
               <div
                 style={{
-                  fontSize: "9pt",
-                  lineHeight: "1.4",
-                  marginBottom: "10px",
+                  fontSize: "10pt",
+                  lineHeight: "1.5",
+                  marginBottom: "15px",
+                  color: "#ffffff",
+                  textAlign: "justify",
                 }}
               >
                 {declaration.description}
               </div>
               {declaration.signature && (
-                <div style={{ fontSize: "9pt", fontStyle: "italic" }}>
+                <div
+                  style={{
+                    fontSize: "10pt",
+                    fontStyle: "italic",
+                    textAlign: "right",
+                    color: "#e8f5e8"
+                  }}
+                >
                   {declaration.signature}
                 </div>
               )}
@@ -621,5 +649,5 @@ const ElegantTemplateWord = ({ data = {} }) => {
     </table>
   );
 };
-
+ 
 export default ElegantTemplateWord;

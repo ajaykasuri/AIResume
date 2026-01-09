@@ -1,0 +1,168 @@
+/* Guest Conversion Styles - Updated with more specific selectors */
+.guest-conversion-container {
+  max-width: 500px;
+  margin: 60px auto;
+  padding: 40px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.guest-conversion-banner {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+
+.guest-conversion-banner h2 {
+  margin: 0 0 10px 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.guest-conversion-banner p {
+  margin: 0;
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.guest-conversion-form {
+  width: 100%;
+}
+
+.guest-conversion-form .form-group {
+  margin-bottom: 24px;
+}
+
+.guest-conversion-form .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.guest-conversion-form .form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.guest-conversion-form .form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.guest-conversion-form .form-group input::placeholder {
+  color: #a0aec0;
+}
+
+.guest-conversion-error {
+  background-color: #fed7d7;
+  color: #c53030;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  border-left: 4px solid #c53030;
+  font-size: 14px;
+}
+
+.guest-conversion-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.guest-conversion-primary-btn {
+  flex: 1;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.guest-conversion-primary-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.guest-conversion-primary-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.guest-conversion-secondary-btn {
+  flex: 1;
+  background: white;
+  color: #4a5568;
+  border: 2px solid #e2e8f0;
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.guest-conversion-secondary-btn:hover:not(:disabled) {
+  background: #f7fafc;
+  border-color: #cbd5e0;
+}
+
+.guest-conversion-secondary-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .guest-conversion-container {
+    margin: 20px;
+    padding: 30px 20px;
+  }
+  
+  .guest-conversion-banner {
+    padding: 20px;
+  }
+  
+  .guest-conversion-banner h2 {
+    font-size: 24px;
+  }
+  
+  .guest-conversion-actions {
+    flex-direction: column;
+  }
+  
+  .guest-conversion-primary-btn,
+  .guest-conversion-secondary-btn {
+    width: 100%;
+  }
+}
+
+/* Loading state */
+@keyframes guest-conversion-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.guest-conversion-primary-btn:disabled {
+  animation: guest-conversion-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

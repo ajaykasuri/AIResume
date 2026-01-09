@@ -1,19 +1,19 @@
 import React from "react";
 import { FaTimes } from "react-icons/fa";
-import "../styles/builder.css"
+import "../styles/templateModal.css";
 // Import template images
 import classicImg from "../assets/classic.png";
 import modernImg from "../assets/moderate.png";
 import executiveImg from "../assets/executive.png";
 import elegantImg from "../assets/elegant.png";
 
-const templates = [
+const templateOptions = [
   { id: 1, name: "Classic", img: classicImg },
   { id: 2, name: "Modern", img: modernImg },
   { id: 3, name: "Executive", img: executiveImg },
   { id: 4, name: "Elegant", img: elegantImg },
 ];
-import Templates from "../pages/Templates";
+
 export default function TemplateModal({
   show,
   onClose,
@@ -25,82 +25,88 @@ export default function TemplateModal({
   if (!show) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content template-modal">
-        <div className="modal-header">
+    <div className="template-modal-overlay">
+      <div className="template-modal-container">
+        <div className="template-modal-header">
           <h2>🎨 Choose Template</h2>
           <button
-            className="modal-close"
+            className="template-modal-close-btn"
             onClick={onClose}
           >
             <FaTimes />
           </button>
         </div>
 
-        <div className="template-modal-body">
-          <div className="template-list-section">
-            <p className="modal-subtitle">
-              Select a template for your resume:
-            </p>
+        <div className="template-modal-content">
+          <div className="template-main-content">
+            <div className="template-selection-section">
+              <p className="template-modal-subtitle">
+                Select a template for your resume:
+              </p>
 
-            <div className="template-grid">
-              {templates.map((template) => (
-                <div
-                  key={template.id}
-                  className={`template-card ${
-                    selectedTemplate === template.id ? "selected" : ""
-                  }`}
-                  onClick={() => onTemplateSelect(template.id)}
-                >
-                  <div className="template-preview">
-                    <img
-                      src={template.img}
-                      alt={template.name}
-                      className="template-image"
-                    />
+              <div className="template-options-grid">
+                {templateOptions.map((template) => (
+                  <div
+                    key={template.id}
+                    className={`template-option-card ${
+                      selectedTemplate === template.id ? "template-option-selected" : ""
+                    }`}
+                    onClick={() => onTemplateSelect(template.id)}
+                  >
+                    <div className="template-image-container">
+                      <img
+                        src={template.img}
+                        alt={template.name}
+                        className="template-thumbnail"
+                      />
+                    </div>
+                    <div className="template-details">
+                      <h4>{template.name}</h4>
+                      <span className="template-selection-status">
+                        {selectedTemplate === template.id
+                          ? "Selected"
+                          : "Select"}
+                      </span>
+                    </div>
                   </div>
-                  <div className="template-info">
-                    <h4>{template.name}</h4>
-                    <span className="template-status">
-                      {selectedTemplate === template.id
-                        ? "Selected"
-                        : "Select"}
-                    </span>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
 
-          <div className="template-preview-section">
-            <div className="full-preview">
-              <h3>Preview</h3>
-              {previewTemplate && (
-                <div className="preview-image-container">
-                  <img
-                    src={
-                      templates.find((t) => t.id === previewTemplate)?.img
-                    }
-                    alt={`${
-                      templates.find((t) => t.id === previewTemplate)?.name
-                    } Preview`}
-                    className="full-preview-image"
-                  />
+            <div className="template-preview-section">
+              <div className="template-full-preview">
+                <h3>Preview</h3>
+                <div className="template-preview-container">
+                  {previewTemplate ? (
+                    <img
+                      src={
+                        templateOptions.find((t) => t.id === previewTemplate)?.img
+                      }
+                      alt={`${
+                        templateOptions.find((t) => t.id === previewTemplate)?.name
+                      } Preview`}
+                      className="template-preview-image"
+                    />
+                  ) : (
+                    <div className="no-preview">
+                      <p>Select a template to preview</p>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="modal-footer">
+        <div className="template-modal-footer">
           <button
-            className="cancel-btn"
+            className="template-cancel-btn"
             onClick={onClose}
           >
             Cancel
           </button>
           <button
-            className="apply-btn"
+            className="template-apply-btn"
             onClick={onApplyTemplate}
             disabled={!selectedTemplate}
           >

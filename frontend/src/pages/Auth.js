@@ -1,28 +1,46 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "../styles/Auth.css"
+import "../styles/Auth.css";
+import { authAPI } from "../utils/api";
 
-const API = process.env.REACT_APP_API_URL || "http://localhost:4000";
 
 export default function Auth({ onLogin }) {
   const [isRegister, setIsRegister] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [isLoading, setIsLoading] = useState(false);
 
   async function submit(e) {
     e.preventDefault();
+    setIsLoading(true);
+    // console.log("Submitting form:", form, "isRegister:", isRegister);
     try {
-      const url = isRegister ? "/api/auth/register" : "/api/auth/login";
-      const res = await axios.post(API + url, form);
+     const res = isRegister
+        ? await authAPI.register(form)
+        : await authAPI.login(form);
       onLogin(res.data);
       setForm({ name: "", email: "", password: "" });
     } catch (err) {
       alert(err.response?.data?.error || "Authentication failed");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  //  Updated: Real guest login handler
+  async function continueAsGuest() {
+    setIsLoading(true);
+    try {
+ const res = await authAPI.guest();
+      onLogin(res.data);
+    } catch (err) {
+      alert(err.response?.data?.error || "Failed to start as guest");
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
     <div className="auth-container">
-      {/* 🌈 Animated floating SVGs */}
       <div className="floating-shapes">
         <svg className="shape shape1" viewBox="0 0 100 100">
           <circle cx="50" cy="50" r="40" fill="#007bff20" />
@@ -35,7 +53,6 @@ export default function Auth({ onLogin }) {
         </svg>
       </div>
 
-      {/* 💫 Glass Card */}
       <div className="auth-card">
         <h1 className="title">
           {isRegister ? "Create an Account" : "Welcome Back"}
@@ -54,31 +71,65 @@ export default function Auth({ onLogin }) {
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               required
+              disabled={isLoading}
             />
           )}
+
           <input
             type="email"
             placeholder="Email Address"
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
             required
+            disabled={isLoading}
           />
+
           <input
             type="password"
             placeholder="Password"
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
             required
+            disabled={isLoading}
           />
 
-          <button type="submit">
-            {isRegister ? "Create Account" : "Sign In"}
+          <button type="submit" disabled={isLoading}>
+            {isLoading
+              ? "Please wait..."
+              : isRegister
+              ? "Create Account"
+              : "Sign In"}
           </button>
         </form>
 
+        <div className="guest-section">
+          <div className="divider">
+            <span>Or</span>
+          </div>
+
+          <button
+            className="guest-btn"
+            onClick={continueAsGuest}
+            disabled={isLoading}
+          >
+            {isLoading ? "Starting..." : "Continue as Guest"}
+          </button>
+
+          <div className="guest-note">
+            <small>
+              Guest users can create resumes and download them. Create an
+              account to save permanently.
+            </small>
+          </div>
+        </div>
+
         <div className="switch">
           {isRegister ? "Already have an account?" : "New to ResumeAI?"}
-          <button type="button" onClick={() => setIsRegister(!isRegister)}>
+          <button
+            type="button"
+            onClick={() => setIsRegister(!isRegister)}
+            disabled={isLoading}
+          >
             {isRegister ? " Sign In" : " Register"}
           </button>
         </div>

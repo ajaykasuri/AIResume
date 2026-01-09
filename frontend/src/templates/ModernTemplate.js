@@ -1,4 +1,3 @@
-// templates/ModernTemplateWord.jsx
 import React from "react";
 
 const ModernTemplateWord = ({ data = {} }) => {
@@ -19,15 +18,48 @@ const ModernTemplateWord = ({ data = {} }) => {
 
   const formatDate = (dateString) => {
     if (!dateString) return "";
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      year: "numeric",
-    });
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        year: "numeric",
+      });
+    } catch (e) {
+      return dateString;
+    }
+  };
+
+  const formatYear = (dateString) => {
+    if (!dateString) return "";
+    try {
+      const date = new Date(dateString);
+      return date.getFullYear().toString();
+    } catch (e) {
+      return dateString;
+    }
+  };
+
+  const hasContent = (section) => {
+    if (Array.isArray(section)) {
+      return (
+        section.length > 0 &&
+        section.some((item) =>
+          Object.values(item).some(
+            (value) => value && value.toString().trim() !== ""
+          )
+        )
+      );
+    }
+    if (typeof section === "object" && section !== null) {
+      return Object.values(section).some(
+        (value) => value && value.toString().trim() !== ""
+      );
+    }
+    return section && section.toString().trim() !== "";
   };
 
   const Section = ({ title, children }) => (
-    <div style={{ marginBottom: "21px" }}>
+    <div style={{ marginBottom: "25px" }}>
       {title && (
         <div
           style={{
@@ -35,13 +67,31 @@ const ModernTemplateWord = ({ data = {} }) => {
             fontSize: "11pt",
             color: "#232323",
             borderBottom: "1px solid #e1e1e1",
-            marginBottom: "6px",
-            paddingBottom: "2px",
+            marginBottom: "10px",
+            paddingBottom: "3px",
           }}
         >
           {title}
         </div>
       )}
+      {children}
+    </div>
+  );
+
+  const SidebarSection = ({ title, children }) => (
+    <div style={{ marginBottom: "22px" }}>
+      <div
+        style={{
+          color: "#212121",
+          fontWeight: "bold",
+          fontSize: "11pt",
+          borderBottom: "1px solid #e0e0e0",
+          marginBottom: "8px",
+          paddingBottom: "2px",
+        }}
+      >
+        {title}
+      </div>
       {children}
     </div>
   );
@@ -57,6 +107,7 @@ const ModernTemplateWord = ({ data = {} }) => {
         fontSize: "12pt",
         borderCollapse: "collapse",
         backgroundColor: "#ffffff",
+        border: "none",
       }}
     >
       <tr>
@@ -65,10 +116,12 @@ const ModernTemplateWord = ({ data = {} }) => {
           width="35%"
           valign="top"
           style={{
-            backgroundColor: "#ffffff",
+            backgroundColor: "#f8f9fa",
             color: "#161616",
-            padding: "20px",
+            padding: "25px 20px",
             verticalAlign: "top",
+            borderRight: "1px solid #e0e0e0",
+            border: "none",
           }}
         >
           {/* Name and Title */}
@@ -76,9 +129,10 @@ const ModernTemplateWord = ({ data = {} }) => {
             <div
               style={{
                 color: "#161616",
-                fontSize: "23pt",
+                fontSize: "24pt",
                 fontWeight: "bold",
-                marginBottom: "3px",
+                marginBottom: "5px",
+                lineHeight: "1.1",
               }}
             >
               {basics.name || "Your Name"}
@@ -86,8 +140,9 @@ const ModernTemplateWord = ({ data = {} }) => {
             <div
               style={{
                 color: "#434343",
-                fontSize: "13pt",
+                fontSize: "14pt",
                 marginBottom: "25px",
+                fontWeight: "600",
               }}
             >
               {basics.jobTitle || "Your Job Title"}
@@ -95,260 +150,127 @@ const ModernTemplateWord = ({ data = {} }) => {
           </div>
 
           {/* Contact Information */}
-          <table
-            width="100%"
-            cellPadding="0"
-            cellSpacing="0"
-            style={{
-              marginBottom: "25px",
-              borderSpacing: "0",
-              borderCollapse: "collapse",
-              lineHeight: "1",
-            }}
-          >
-            <tbody>
+          <SidebarSection title="CONTACT INFORMATION">
+            <div
+              style={{ lineHeight: "1.6", fontSize: "10pt", color: "#161616" }}
+            >
               {basics.email && (
-                <tr>
-                  {/* Reduced width to 20 pixels */}
-                  <td
-                    width="20"
-                    valign="top"
-                    style={{
-                      color: "black",
-                      padding: "0",
-                      margin: "0",
-                      verticalAlign: "top",
-                    }}
-                  >
+                <div
+                  style={{
+                    marginBottom: "5px",
+                    display: "flex",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <span style={{ marginRight: "8px", minWidth: "20px" }}>
                     ✉️
-                  </td>
-                  <td
-                    style={{
-                      color: "black",
-                      fontSize: "10pt",
-                      padding: "0",
-                      margin: "0",
-                      verticalAlign: "top",
-                    }}
-                  >
-                    {basics.email}
-                  </td>
-                </tr>
+                  </span>
+                  <span>{basics.email}</span>
+                </div>
               )}
               {basics.phone && (
-                <tr>
-                  {/* Reduced width to 20 pixels */}
-                  <td
-                    width="20"
-                    valign="top"
-                    style={{
-                      color: "black",
-                      padding: "0",
-                      margin: "0",
-                      verticalAlign: "top",
-                    }}
-                  >
+                <div
+                  style={{
+                    marginBottom: "5px",
+                    display: "flex",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <span style={{ marginRight: "8px", minWidth: "20px" }}>
                     📞
-                  </td>
-                  <td
-                    style={{
-                      color: "black",
-                      fontSize: "10pt",
-                      padding: "0",
-                      margin: "0",
-                      verticalAlign: "top",
-                    }}
-                  >
-                    {basics.phone}
-                  </td>
-                </tr>
+                  </span>
+                  <span>{basics.phone}</span>
+                </div>
               )}
-              {basics.city && (
-                <tr>
-                  {/* Reduced width to 20 pixels */}
-                  <td
-                    width="20"
-                    valign="top"
-                    style={{
-                      color: "black",
-                      padding: "0",
-                      margin: "0",
-                      verticalAlign: "top",
-                    }}
-                  >
+              {(basics.city || basics.country) && (
+                <div
+                  style={{
+                    marginBottom: "5px",
+                    display: "flex",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <span style={{ marginRight: "8px", minWidth: "20px" }}>
                     📍
-                  </td>
-                  <td
-                    style={{
-                      color: "black",
-                      fontSize: "10pt",
-                      padding: "0",
-                      margin: "0",
-                      verticalAlign: "top",
-                    }}
-                  >
+                  </span>
+                  <span>
                     {basics.city}
-                    {basics.country ? `, ${basics.country}` : ""}
-                  </td>
-                </tr>
+                    {basics.city && basics.country ? ", " : ""}
+                    {basics.country}
+                  </span>
+                </div>
               )}
               {basics.linkedIn && (
-                <tr>
-                  {/* Reduced width to 20 pixels */}
-                  <td
-                    width="20"
-                    valign="top"
-                    style={{
-                      color: "black",
-                      padding: "0",
-                      margin: "0",
-                      verticalAlign: "top",
-                    }}
-                  >
+                <div
+                  style={{
+                    marginBottom: "5px",
+                    display: "flex",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <span style={{ marginRight: "8px", minWidth: "20px" }}>
                     🔗
-                  </td>
-                  <td
-                    style={{
-                      color: "black",
-                      fontSize: "10pt",
-                      padding: "0",
-                      margin: "0",
-                      verticalAlign: "top",
-                    }}
-                  >
-                    {basics.linkedIn}
-                  </td>
-                </tr>
+                  </span>
+                  <span>{basics.linkedIn}</span>
+                </div>
               )}
-            </tbody>
-          </table>
+              {basics.github && (
+                <div
+                  style={{
+                    marginBottom: "5px",
+                    display: "flex",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <span style={{ marginRight: "8px", minWidth: "20px" }}>
+                    🔗
+                  </span>
+                  <span>{basics.github}</span>
+                </div>
+              )}
+              {basics.website && (
+                <div
+                  style={{
+                    marginBottom: "5px",
+                    display: "flex",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <span style={{ marginRight: "8px", minWidth: "20px" }}>
+                    🌐
+                  </span>
+                  <span>{basics.website}</span>
+                </div>
+              )}
+            </div>
+          </SidebarSection>
 
           {/* Profile */}
-          {personalStatement && (
-            <div style={{ marginBottom: "22px" }}>
-              <div
-                style={{
-                  color: "#212121",
-                  fontWeight: "bold",
-                  fontSize: "11pt",
-                  borderBottom: "1px solid #e0e0e0",
-                  marginBottom: "8px",
-                  paddingBottom: "2px",
-                }}
-              >
-                PROFILE
-              </div>
+          {hasContent(personalStatement) && (
+            <SidebarSection title="PROFILE">
               <div
                 style={{
                   color: "#222222",
                   fontSize: "10pt",
-                  lineHeight: "1.4",
+                  lineHeight: "1.5",
+                  textAlign: "justify",
                 }}
               >
                 {personalStatement}
               </div>
-            </div>
+            </SidebarSection>
           )}
 
-          {/* Languages */}
-          {languages && languages.length > 0 && (
-            <div style={{ marginBottom: "22px" }}>
-              <div
-                style={{
-                  color: "#212121",
-                  fontWeight: "bold",
-                  fontSize: "11pt",
-                  borderBottom: "1px solid #e0e0e0",
-                  marginBottom: "8px",
-                  paddingBottom: "2px",
-                }}
-              >
-                LANGUAGES
-              </div>
-              <ul
-                style={{
-                  color: "#161616",
-                  fontSize: "10pt",
-                  paddingLeft: "15px",
-                  margin: 0,
-                }}
-              >
-                {languages.map((lang, i) => (
-                  <li key={i} style={{ marginBottom: "5px" }}>
-                    <b>{lang.name}</b> - {lang.proficiency}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Education */}
-          {education && education.length > 0 && (
-            <div style={{ marginBottom: "22px" }}>
-              <div
-                style={{
-                  color: "#212121",
-                  fontWeight: "bold",
-                  fontSize: "11pt",
-                  borderBottom: "1px solid #e0e0e0",
-                  marginBottom: "8px",
-                  paddingBottom: "2px",
-                }}
-              >
-                EDUCATION
-              </div>
-              {education.map((edu, i) => (
-                <div key={i} style={{ marginBottom: "12px" }}>
-                  <div
-                    style={{
-                      fontWeight: "bold",
-                      color: "#161616",
-                      fontSize: "10pt",
-                    }}
-                  >
-                    {edu.degree}
-                  </div>
-                  <div style={{ color: "#161616", fontSize: "9pt" }}>
-                    {edu.institution}
-                  </div>
-                  <div style={{ color: "#7d7d7d", fontSize: "9pt" }}>
-                    {formatDate(edu.from)} –{" "}
-                    {edu.current ? "Present" : formatDate(edu.to)}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/*             borderBottom: "1px solid #e0e0e0", */}
-          {skills.length > 0 && (
-            <div style={{ marginBottom: "25px" }}>
-              <div
-                style={{
-                  fontSize: "12pt",
-                  fontWeight: "bold",
-                  color: "#010701ff",
-                  marginBottom: "12px",
-                  borderBottom: "1px solid #e0e0e0",
-                  paddingBottom: "4px",
-                  paddingLeft: "20px",
-                }}
-              >
-                SKILLS
-              </div>
-              <div
-                style={{
-                  fontSize: "10pt",
-                  color: "#130101ff",
-                  paddingLeft: "5px",
-                }}
-              >
+          {/* Skills */}
+          {hasContent(skills) && (
+            <SidebarSection title="SKILLS">
+              <div style={{ fontSize: "10pt", color: "#161616" }}>
                 {skills.map((skill, index) => (
                   <div
                     key={index}
                     style={{
                       marginBottom: "6px",
-                      paddingLeft: "45px",
+                      paddingLeft: "15px",
                       textIndent: "-15px",
                       lineHeight: "1.4",
                     }}
@@ -357,40 +279,132 @@ const ModernTemplateWord = ({ data = {} }) => {
                   </div>
                 ))}
               </div>
-            </div>
+            </SidebarSection>
+          )}
+
+          {/* Education */}
+          {hasContent(education) && (
+            <SidebarSection title="EDUCATION">
+              {education.map((edu, i) => (
+                <div key={i} style={{ marginBottom: "15px" }}>
+                  <div
+                    style={{
+                      fontWeight: "bold",
+                      color: "#161616",
+                      fontSize: "10pt",
+                      marginBottom: "3px",
+                    }}
+                  >
+                    {edu.degree}
+                  </div>
+                  <div
+                    style={{
+                      color: "#161616",
+                      fontSize: "9pt",
+                      marginBottom: "3px",
+                    }}
+                  >
+                    {edu.institution}
+                  </div>
+                  <div
+                    style={{
+                      color: "#7d7d7d",
+                      fontSize: "9pt",
+                    }}
+                  >
+                    {formatYear(edu.from)} –{" "}
+                    {edu.current ? "Present" : formatYear(edu.to)}
+                  </div>
+                </div>
+              ))}
+            </SidebarSection>
+          )}
+
+          {/* Languages */}
+          {hasContent(languages) && (
+            <SidebarSection title="LANGUAGES">
+              <div style={{ color: "#161616", fontSize: "10pt" }}>
+                {languages.map((lang, i) => (
+                  <div key={i} style={{ marginBottom: "6px" }}>
+                    <b>{lang.name}</b> - {lang.proficiency}
+                    {lang.certificate && (
+                      <div
+                        style={{
+                          fontSize: "9pt",
+                          color: "#7d7d7d",
+                          marginTop: "2px",
+                        }}
+                      >
+                        {lang.certificate}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </SidebarSection>
           )}
 
           {/* Certifications */}
-          {certifications && certifications.length > 0 && (
-            <div style={{ marginBottom: "22px" }}>
-              <div
-                style={{
-                  color: "#212121",
-                  fontWeight: "bold",
-                  fontSize: "11pt",
-                  borderBottom: "1px solid #e0e0e0",
-                  marginBottom: "8px",
-                  paddingBottom: "2px",
-                }}
-              >
-                CERTIFICATIONS
-              </div>
-              <ul
-                style={{
-                  color: "#161616",
-                  fontSize: "10pt",
-                  paddingLeft: "15px",
-                  margin: 0,
-                }}
-              >
+          {hasContent(certifications) && (
+            <SidebarSection title="CERTIFICATIONS">
+              <div style={{ color: "#161616", fontSize: "10pt" }}>
                 {certifications.map((cert, i) => (
-                  <li key={i} style={{ marginBottom: "5px" }}>
-                    <b>{cert.name}</b> - {cert.issuer}
-                    {cert.dateObtained && ` (${cert.dateObtained})`}
-                  </li>
+                  <div key={i} style={{ marginBottom: "10px" }}>
+                    <div
+                      style={{
+                        fontWeight: "bold",
+                        marginBottom: "2px",
+                      }}
+                    >
+                      {cert.name}
+                    </div>
+                    <div
+                      style={{
+                        color: "#7d7d7d",
+                        marginBottom: "2px",
+                      }}
+                    >
+                      {cert.issuer}
+                      {cert.dateObtained &&
+                        ` • ${formatDate(cert.dateObtained)}`}
+                    </div>
+                    {cert.credentialId && (
+                      <div
+                        style={{
+                          fontSize: "9pt",
+                          color: "#7d7d7d",
+                        }}
+                      >
+                        ID: {cert.credentialId}
+                      </div>
+                    )}
+                  </div>
                 ))}
-              </ul>
-            </div>
+              </div>
+            </SidebarSection>
+          )}
+
+          {/* Interests */}
+          {hasContent(interests) && (
+            <SidebarSection title="INTERESTS">
+              <div style={{ color: "#161616", fontSize: "10pt" }}>
+                {interests.map((interest, i) => (
+                  <div key={i} style={{ marginBottom: "6px" }}>
+                    <b>{interest.name}</b>
+                    {interest.description && (
+                      <div
+                        style={{
+                          color: "#7d7d7d",
+                          marginTop: "2px",
+                        }}
+                      >
+                        {interest.description}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </SidebarSection>
           )}
         </td>
 
@@ -401,20 +415,21 @@ const ModernTemplateWord = ({ data = {} }) => {
           style={{
             backgroundColor: "#ffffff",
             color: "#161616",
-            padding: "20px",
+            padding: "25px 20px",
             verticalAlign: "top",
+            border: "none",
           }}
         >
           {/* Experience */}
-          {experience && experience.length > 0 && (
+          {hasContent(experience) && (
             <Section title="PROFESSIONAL EXPERIENCE">
               {experience.map((exp, i) => (
-                <div key={i} style={{ marginBottom: "24px" }}>
+                <div key={i} style={{ marginBottom: "22px" }}>
                   <div
                     style={{
                       fontWeight: "bold",
                       fontSize: "11pt",
-                      marginBottom: "3px",
+                      marginBottom: "4px",
                       color: "#161616",
                     }}
                   >
@@ -424,16 +439,18 @@ const ModernTemplateWord = ({ data = {} }) => {
                     style={{
                       color: "#161616",
                       fontSize: "10pt",
-                      marginBottom: "5px",
+                      marginBottom: "3px",
                     }}
                   >
                     {exp.employer}
+                    {exp.location && `, ${exp.location}`}
                   </div>
                   <div
                     style={{
                       color: "#7d7d7d",
                       fontSize: "9pt",
                       marginBottom: "8px",
+                      fontStyle: "italic",
                     }}
                   >
                     {formatDate(exp.from)} –{" "}
@@ -443,11 +460,15 @@ const ModernTemplateWord = ({ data = {} }) => {
                     <div
                       style={{
                         fontSize: "10pt",
-                        lineHeight: "1.4",
+                        lineHeight: "1.5",
                         color: "#161616",
                       }}
                     >
-                      {exp.description}
+                      {exp.description.split("\n").map((line, idx) => (
+                        <div key={idx} style={{ marginBottom: "4px" }}>
+                          {line}
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>
@@ -456,7 +477,7 @@ const ModernTemplateWord = ({ data = {} }) => {
           )}
 
           {/* Projects */}
-          {projects && projects.length > 0 && (
+          {hasContent(projects) && (
             <Section title="PROJECTS">
               {projects.map((proj, i) => (
                 <div key={i} style={{ marginBottom: "20px" }}>
@@ -470,28 +491,84 @@ const ModernTemplateWord = ({ data = {} }) => {
                   >
                     {proj.title}
                   </div>
-                  {proj.link && (
+
+                  {/* Project Details */}
+                  <div style={{ marginBottom: "6px" }}>
+                    {proj.link && (
+                      <div
+                        style={{
+                          fontSize: "9pt",
+                          marginBottom: "3px",
+                          color: "#161616",
+                        }}
+                      >
+                        <span
+                          style={{
+                            color: "#161616",
+                          }}
+                        >
+                          {proj.link}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Project Period */}
                     <div
                       style={{
+                        color: "#7d7d7d",
                         fontSize: "9pt",
-                        marginBottom: "5px",
-                        color: "#161616",
+                        marginBottom: "4px",
+                        fontStyle: "italic",
                       }}
                     >
-                      <a href={proj.link} style={{ color: "#161616" }}>
-                        {proj.link}
-                      </a>
+                      {formatDate(proj.from)} –{" "}
+                      {proj.current ? "Present" : formatDate(proj.to)}
                     </div>
-                  )}
+
+                    {/* Client and Team */}
+                    {(proj.clientName || proj.teamSize) && (
+                      <div
+                        style={{
+                          fontSize: "9pt",
+                          color: "#7d7d7d",
+                          marginBottom: "4px",
+                        }}
+                      >
+                        {proj.clientName && `Client: ${proj.clientName}`}
+                        {proj.clientName && proj.teamSize && " | "}
+                        {proj.teamSize && `Team Size: ${proj.teamSize}`}
+                      </div>
+                    )}
+
+                    {/* Skills Used */}
+                    {proj.skillsUsed && proj.skillsUsed.length > 0 && (
+                      <div
+                        style={{
+                          fontSize: "9pt",
+                          color: "#7d7d7d",
+                          marginBottom: "6px",
+                        }}
+                      >
+                        <strong>Technologies:</strong>{" "}
+                        {proj.skillsUsed.join(", ")}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Project Description */}
                   {proj.description && (
                     <div
                       style={{
                         fontSize: "10pt",
-                        lineHeight: "1.4",
+                        lineHeight: "1.5",
                         color: "#161616",
                       }}
                     >
-                      {proj.description}
+                      {proj.description.split("\n").map((line, idx) => (
+                        <div key={idx} style={{ marginBottom: "4px" }}>
+                          {line}
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>
@@ -500,36 +577,36 @@ const ModernTemplateWord = ({ data = {} }) => {
           )}
 
           {/* Achievements */}
-          {achievements && achievements.length > 0 && (
+          {hasContent(achievements) && (
             <Section title="ACHIEVEMENTS">
               {achievements.map((achievement, i) => (
-                <div key={i} style={{ marginBottom: "20px" }}>
+                <div key={i} style={{ marginBottom: "18px" }}>
                   <div
                     style={{
                       fontWeight: "bold",
                       fontSize: "11pt",
-                      marginBottom: "3px",
+                      marginBottom: "4px",
                       color: "#161616",
                     }}
                   >
                     {achievement.title}
                   </div>
-                  {achievement.date && (
-                    <div
-                      style={{
-                        color: "#7d7d7d",
-                        fontSize: "9pt",
-                        marginBottom: "5px",
-                      }}
-                    >
-                      {achievement.date}
-                    </div>
-                  )}
+                  <div
+                    style={{
+                      color: "#7d7d7d",
+                      fontSize: "9pt",
+                      marginBottom: "6px",
+                    }}
+                  >
+                    {achievement.issuer}
+                    {achievement.date && ` • ${formatDate(achievement.date)}`}
+                    {achievement.category && ` • ${achievement.category}`}
+                  </div>
                   {achievement.description && (
                     <div
                       style={{
                         fontSize: "10pt",
-                        lineHeight: "1.4",
+                        lineHeight: "1.5",
                         color: "#161616",
                       }}
                     >
@@ -541,14 +618,57 @@ const ModernTemplateWord = ({ data = {} }) => {
             </Section>
           )}
 
+          {/* Awards */}
+          {hasContent(awards) && (
+            <Section title="AWARDS">
+              {awards.map((award, i) => (
+                <div key={i} style={{ marginBottom: "18px" }}>
+                  <div
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "11pt",
+                      marginBottom: "4px",
+                      color: "#161616",
+                    }}
+                  >
+                    {award.title}
+                  </div>
+                  <div
+                    style={{
+                      color: "#7d7d7d",
+                      fontSize: "9pt",
+                      marginBottom: "6px",
+                    }}
+                  >
+                    {award.issuer}
+                    {award.date && ` • ${formatDate(award.date)}`}
+                  </div>
+                  {award.description && (
+                    <div
+                      style={{
+                        fontSize: "10pt",
+                        lineHeight: "1.5",
+                        color: "#161616",
+                      }}
+                    >
+                      {award.description}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </Section>
+          )}
+
           {/* Declaration */}
-          {declaration && declaration.description && (
+          {hasContent(declaration) && (
             <Section title="DECLARATION">
               <div
                 style={{
                   fontSize: "10pt",
-                  lineHeight: "1.4",
+                  lineHeight: "1.5",
                   color: "#161616",
+                  textAlign: "justify",
+                  marginBottom: "15px",
                 }}
               >
                 {declaration.description}
@@ -559,6 +679,7 @@ const ModernTemplateWord = ({ data = {} }) => {
                     textAlign: "right",
                     marginTop: "15px",
                     fontSize: "10pt",
+                    fontWeight: "bold",
                   }}
                 >
                   {declaration.signature}

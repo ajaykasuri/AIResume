@@ -6,18 +6,33 @@ import ExecutiveTemplate from "../templates/ExecutiveTemplate";
 import ModernTemplate from "../templates/ModernTemplate";
 
 export default function ResumePreview({ resume }) {
-  if (!resume || !resume.data) return <div>No resume data.</div>;
+  if (!resume) return <div>No resume data.</div>;
 
-  const { templateId, data } = resume;
-  const sectionsOrder = resume.sectionsOrder || ['basics','personal','skills','experience','projects','education','declaration'];
-// console.log("previwTempId",resume)
+  const normalizedResume = resume.data ? resume : { data: resume };
+
+  const { templateId = 1, data } = normalizedResume;
+
+  const sectionsOrder = normalizedResume.sectionsOrder || [
+    "basics",
+    "personal",
+    "skills",
+    "experience",
+    "projects",
+    "education",
+    "declaration",
+    "certifications",
+    "achievements",
+    "awards",
+    "languages",
+    "interests",
+  ];
+
   const templates = {
     1: <ClassicTemplate data={data} sectionsOrder={sectionsOrder} />,
-    2: <ModernTemplate data={data} />,
-    3: <ExecutiveTemplate data={data} />,
-    4: <ElegantTemplate data={data} />,
+    2: <ModernTemplate data={data} sectionsOrder={sectionsOrder} />,
+    3: <ExecutiveTemplate data={data} sectionsOrder={sectionsOrder} />,
+    4: <ElegantTemplate data={data} sectionsOrder={sectionsOrder} />,
   };
 
-
-  return templates[templateId] || <ClassicTemplate data={data} sectionsOrder={sectionsOrder} />;
+  return templates[templateId] || templates[1];
 }

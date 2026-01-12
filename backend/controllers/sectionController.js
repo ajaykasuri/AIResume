@@ -5,10 +5,10 @@ const sectionService = require('../services/sectionService');
 exports.smartSaveSection = async (req, res) => {
   try {
     const { resumeId } = req.params;
-  console.log("Smart Save Params:", req.params);
+  // console.log("Smart Save Params:", req.params);
     const section = req.path.split("/")[2]; 
     const items = req.body; 
-
+console.log("Smart Save Body:", items);
     const result = await sectionService.smartSave(resumeId, section, items);
     res.json(result);
   } catch (err) {

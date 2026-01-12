@@ -13,6 +13,8 @@ router.post("/", resumeController.createResume);
 router.get("/:resumeId", resumeController.getFullResume);
 router.put("/:resumeId", resumeController.updateResume);
 router.delete("/:resumeId", resumeController.deleteResume);
+router.put("/:resumeId/sections", resumeController.updateResumeSections);
+
 
 router.post(
   "/upload-thumbnail/:resumeId",

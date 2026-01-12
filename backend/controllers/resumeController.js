@@ -312,3 +312,89 @@ exports.uploadThumbnail = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+
+
+exports.updateResumeSections = async (req, res) => {
+  const { resumeId } = req.params;
+  const { selectedSections } = req.body;
+  const userId = req.user.id;
+
+  console.log("Updating sections for resume:", selectedSections);
+
+  if (!Array.isArray(selectedSections)) {
+    return res.status(400).json({ error: "selectedSections must be an array" });
+  }
+
+  const sectionTitles = {
+    personal_info: "Personal Information",
+    profile: "Professional Summary",
+    experience: "Work Experience",
+    education: "Education",
+    skills: "Skills",
+    projects: "Projects",
+    achievements: "Achievements",
+    awards: "Awards",
+    certifications: "Certifications",
+    languages: "Languages",
+    courses: "Courses",
+    internships: "Internships",
+    publications: "Publications",
+    interests: "Interests",
+    references: "References",
+    declarations: "Declarations",
+  };
+
+  const conn = await pool.getConnection();
+
+  try {
+    await conn.beginTransaction();
+
+    // 1Ownership check
+    const [[resume]] = await conn.query(
+      `SELECT resume_id FROM rb_Resumes WHERE resume_id = ? AND user_id = ?`,
+      [resumeId, userId]
+    );
+
+    if (!resume) {
+      await conn.rollback();
+      return res.status(404).json({ error: "Resume not found" });
+    }
+
+    // 2 UPSERT sections (NO DELETE)
+    for (const [index, sectionKey] of selectedSections.entries()) {
+      const title = sectionTitles[sectionKey] || sectionKey;
+
+      await conn.query(
+        `
+        INSERT INTO rb_Sections
+          (resume_id, section_key, section_title, order_no, visible, is_custom)
+        VALUES (?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+          order_no = VALUES(order_no),
+          visible = VALUES(visible),
+          section_title = VALUES(section_title)
+        `,
+        [
+          resumeId,
+          sectionKey,     
+          title,          
+          index + 1,      
+          1,              
+          0,              
+        ]
+      );
+    }
+
+    await conn.commit();
+    return res.json({ message: "Resume sections updated successfully" });
+  } catch (err) {
+    await conn.rollback();
+    console.error("Update sections error:", err);
+    return res.status(500).json({ error: err.message });
+  } finally {
+    conn.release();
+  }
+};
+
+

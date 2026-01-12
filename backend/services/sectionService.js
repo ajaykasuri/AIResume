@@ -84,7 +84,7 @@ const getTableInfo = (section) => {
       fieldMap: {
         title: "title",
         description: "description",
-        date: "achievement_date",
+        achievement_date: "achievement_date",
         category: "category",
         issuer: "issuer",
         link: "achievement_url",
@@ -94,31 +94,31 @@ const getTableInfo = (section) => {
       table: "rb_Certifications",
       idField: "certification_id",
       fieldMap: {
-        name: "certification_name",
-        issuer: "issuing_organization",
-        dateObtained: "issue_date",
-        expirationDate: "expiration_date",
-        credentialId: "credential_id",
-        link: "certification_url",
+        certification_name: "certification_name",
+        issuing_organization: "issuing_organization",
+        issue_date: "issue_date",
+        expiration_date: "expiration_date",
+        credential_id: "credential_id",
+        certification_url: "certification_url",
       },
     },
     awards: {
       table: "rb_Awards",
       idField: "award_id",
       fieldMap: {
-        title: "award_name",
-        date: "award_date",
-        issuer: "awarding_organization",
+        award_title: "award_name",
+        award_date: "award_date",
+        awarding_organization: "awarding_organization",
         description: "description",
-        link: "award_url",
+        award_url: "award_url",
       },
     },
     languages: {
       table: "rb_Languages",
       idField: "language_id",
       fieldMap: {
-        name: "language_name",
-        proficiency: "proficiency",
+        language_name: "language_name",
+        proficiency: "proficiency_level",
         certificate: "certificate",
       },
     },
@@ -126,7 +126,7 @@ const getTableInfo = (section) => {
       table: "rb_Interests",
       idField: "interest_id",
       fieldMap: {
-        name: "interest_name",
+        interest_name: "interest_name",
         description: "description",
       },
     },
@@ -148,7 +148,11 @@ const cleanData = (item, integerFields = [], jsonFields = []) => {
   const cleaned = { ...item };
 
   integerFields.forEach((field) => {
-    if (cleaned[field] === "" || cleaned[field] === null || cleaned[field] === undefined) {
+    if (
+      cleaned[field] === "" ||
+      cleaned[field] === null ||
+      cleaned[field] === undefined
+    ) {
       cleaned[field] = null;
     } else if (typeof cleaned[field] === "string" && !isNaN(cleaned[field])) {
       cleaned[field] = parseInt(cleaned[field], 10);
@@ -158,7 +162,12 @@ const cleanData = (item, integerFields = [], jsonFields = []) => {
   jsonFields.forEach((field) => {
     if (cleaned[field] && typeof cleaned[field] === "string") {
       cleaned[field] = cleaned[field].includes(",")
-        ? JSON.stringify(cleaned[field].split(",").map((s) => s.trim()).filter(Boolean))
+        ? JSON.stringify(
+            cleaned[field]
+              .split(",")
+              .map((s) => s.trim())
+              .filter(Boolean)
+          )
         : JSON.stringify([cleaned[field].trim()]);
     } else if (Array.isArray(cleaned[field])) {
       cleaned[field] = JSON.stringify(cleaned[field]);
@@ -177,8 +186,17 @@ const cleanData = (item, integerFields = [], jsonFields = []) => {
 // ===== Smart Save =====
 exports.smartSave = async (resumeId, section, items) => {
   try {
-    const { table, idField, fieldMap, integerFields = [], jsonFields = [] } =
-      getTableInfo(section);
+    console.log(
+      `Saving section: ${section}, resumeId: ${resumeId}, items:`,
+      items
+    );
+    const {
+      table,
+      idField,
+      fieldMap,
+      integerFields = [],
+      jsonFields = [],
+    } = getTableInfo(section);
 
     const db = await pool.getConnection();
     try {
@@ -220,7 +238,9 @@ exports.smartSave = async (resumeId, section, items) => {
           // Insert new
           const placeholders = fields.map(() => "?").join(", ");
           const [result] = await db.query(
-            `INSERT INTO ${table} (resume_id, ${fields.join(", ")}) VALUES (?, ${placeholders})`,
+            `INSERT INTO ${table} (resume_id, ${fields.join(
+              ", "
+            )}) VALUES (?, ${placeholders})`,
             [resumeId, ...values]
           );
           created.push(result.insertId);
@@ -239,7 +259,12 @@ exports.smartSave = async (resumeId, section, items) => {
         );
       }
 
-      return { message: `${section} saved successfully`, created, updated, deleted: toDelete };
+      return {
+        message: `${section} saved successfully`,
+        created,
+        updated,
+        deleted: toDelete,
+      };
     } finally {
       db.release();
     }
@@ -252,7 +277,9 @@ exports.smartSave = async (resumeId, section, items) => {
 // ===== Delete Single Item =====
 exports.deleteItem = async (resumeId, section, id) => {
   try {
-    console.log(`Deleting item from section: ${section}, resumeId: ${resumeId}, itemId: ${id}`);
+    console.log(
+      `Deleting item from section: ${section}, resumeId: ${resumeId}, itemId: ${id}`
+    );
     const { table, idField } = getTableInfo(section);
     console.log(`Target table: ${table}, idField: ${idField}`);
     const [result] = await pool.query(
@@ -274,7 +301,11 @@ exports.bulkSave = async (resumeId, sectionsData) => {
   const result = {};
   for (let section in sectionsData) {
     if (Array.isArray(sectionsData[section])) {
-      result[section] = await exports.smartSave(resumeId, section, sectionsData[section]);
+      result[section] = await exports.smartSave(
+        resumeId,
+        section,
+        sectionsData[section]
+      );
     }
   }
   return result;

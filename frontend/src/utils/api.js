@@ -48,6 +48,8 @@ export const resumeAPI = {
   getFullResume: (resumeId) => api.get(`/resumes/${resumeId}`),
   update: (resumeId, resumeData) => api.put(`/resumes/${resumeId}`, resumeData),
   delete: (resumeId) => api.delete(`/resumes/${resumeId}`),
+  updateSections: (resumeId, sectionsData) =>
+    api.put(`/resumes/${resumeId}/sections`, sectionsData),
 };
 
 // Section API

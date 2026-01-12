@@ -33,7 +33,7 @@ const CreateResumeModal = ({ onClose, userId, token }) => {
   const [step, setStep] = useState(1);
   const [selectedOption, setSelectedOption] = useState("manual");
   const [selectedSections, setSelectedSections] = useState([
-    "summary",
+    "profile",
     "experience",
     "education",
     "skills",
@@ -58,8 +58,8 @@ const CreateResumeModal = ({ onClose, userId, token }) => {
     },
     {
       key: "profile",
-      name: "Profile",
-      description: "Summary / Objective",
+      name: "Profile Summary",
+      description: "Professional summary / Objective",
       icon: <User />,
       category: "basic",
     },
@@ -119,13 +119,6 @@ const CreateResumeModal = ({ onClose, userId, token }) => {
       icon: <BriefcaseBusiness />,
       category: "professional",
     },
-    // {
-    //   key: "volunteer",
-    //   name: "Volunteer Experience",
-    //   description: "NGO / Social work",
-    //   icon: <Handshake />,
-    //   category: "professional",
-    // },
     {
       key: "courses",
       name: "Courses",
@@ -188,12 +181,13 @@ const CreateResumeModal = ({ onClose, userId, token }) => {
 
   const selectRecommendedSections = () => {
     const recommended = [
+      "personal_info",
       "profile",
       "education",
       "experience",
       "skills",
       "projects",
-      "certificates",
+      "certifications",
     ];
     setSelectedSections(recommended);
   };
@@ -222,8 +216,6 @@ const CreateResumeModal = ({ onClose, userId, token }) => {
         template_font: "Inter",
         template_id: 1,
       };
-
-      //   console.log("Create Resume Payload:", data);
 
       const response = await resumeAPI.create(data);
 
@@ -366,9 +358,9 @@ const CreateResumeModal = ({ onClose, userId, token }) => {
               <button
                 onClick={() => {
                   if (selectedOption === "ai") {
-                    navigate("/resume/ai"); // 👈 NEW PAGE
+                    navigate("/resume/ai");
                   } else {
-                    setStep(2); // 👈 Manual flow
+                    setStep(2);
                   }
                 }}
                 className={`create-resume-next-button ${

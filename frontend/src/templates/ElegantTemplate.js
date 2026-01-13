@@ -306,7 +306,7 @@ const ElegantTemplateWord = ({ data = {} }) => {
           width="65%"
           valign="top"
           style={{
-            backgroundColor: "#2e7d32",
+            backgroundColor: "rgb(65, 121, 67)",
             color: "#ffffff",
             padding: "25px 20px",
             border: "none",

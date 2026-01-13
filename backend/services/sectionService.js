@@ -183,13 +183,8 @@ const cleanData = (item, integerFields = [], jsonFields = []) => {
   return cleaned;
 };
 
-// ===== Smart Save =====
 exports.smartSave = async (resumeId, section, items) => {
   try {
-    console.log(
-      `Saving section: ${section}, resumeId: ${resumeId}, items:`,
-      items
-    );
     const {
       table,
       idField,
@@ -274,14 +269,9 @@ exports.smartSave = async (resumeId, section, items) => {
   }
 };
 
-// ===== Delete Single Item =====
 exports.deleteItem = async (resumeId, section, id) => {
   try {
-    console.log(
-      `Deleting item from section: ${section}, resumeId: ${resumeId}, itemId: ${id}`
-    );
     const { table, idField } = getTableInfo(section);
-    console.log(`Target table: ${table}, idField: ${idField}`);
     const [result] = await pool.query(
       `DELETE FROM ${table} WHERE resume_id = ? AND ${idField} = ?`,
       [resumeId, id]
@@ -296,7 +286,6 @@ exports.deleteItem = async (resumeId, section, id) => {
   }
 };
 
-// ===== Bulk Save =====
 exports.bulkSave = async (resumeId, sectionsData) => {
   const result = {};
   for (let section in sectionsData) {

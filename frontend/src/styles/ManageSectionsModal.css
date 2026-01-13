@@ -1,18 +1,27 @@
 /* ManageSectionsModal.css */
-
 .manage-sections-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  backdrop-filter: blur(2px);
+  z-index: 9999;
   animation: fadeIn 0.2s ease;
+}
+
+.manage-sections-modal-content {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s ease;
 }
 
 @keyframes fadeIn {
@@ -20,21 +29,10 @@
   to { opacity: 1; }
 }
 
-.manage-sections-modal-content {
-  background: white;
-  border-radius: 12px;
-  max-width: 600px;
-  width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
+@keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(-20px);
   }
   to {
     opacity: 1;
@@ -43,111 +41,122 @@
 }
 
 .manage-sections-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #eaeaea;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 1.5rem 1rem;
-  border-bottom: 1px solid #e2e8f0;
+  justify-content: space-between;
 }
 
 .manage-sections-modal-header h3 {
   margin: 0;
   font-size: 1.25rem;
-  color: #1e293b;
   font-weight: 600;
+  color: #333;
 }
 
 .manage-sections-modal-close {
   background: none;
   border: none;
-  font-size: 1.75rem;
+  font-size: 28px;
   cursor: pointer;
-  color: #64748b;
-  padding: 0;
-  width: 32px;
-  height: 32px;
+  color: #666;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
+  border-radius: 50%;
   transition: all 0.2s;
 }
 
 .manage-sections-modal-close:hover {
-  background-color: #f1f5f9;
-  color: #475569;
+  background: #f5f5f5;
+  color: #333;
+}
+
+.manage-sections-modal-close:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: none;
 }
 
 .manage-sections-modal-body {
-  padding: 1.5rem;
+  padding: 24px;
 }
 
 .manage-sections-description {
-  color: #64748b;
+  margin: 0 0 20px 0;
+  color: #666;
   font-size: 0.95rem;
-  margin-bottom: 1rem;
   line-height: 1.5;
 }
 
 .manage-sections-counter {
-  margin-bottom: 1.5rem;
-  padding: 0.75rem;
-  background: #f1f5f9;
+  background: #f8f9fa;
+  padding: 12px 16px;
   border-radius: 8px;
-  font-size: 0.9rem;
-  color: #475569;
-  text-align: center;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+  color: #555;
 }
 
 .manage-sections-counter strong {
-  color: #276ef1;
+  color: #2563eb;
   font-size: 1.1rem;
 }
 
 .manage-sections-list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 8px;
 }
 
 .manage-sections-item {
   display: flex;
   align-items: center;
-  padding: 1rem;
-  border: 2px solid #e2e8f0;
+  padding: 14px 16px;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
   cursor: pointer;
-  background: #fff;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
+  user-select: none;
 }
 
-.manage-sections-item:hover {
-  border-color: #cbd5e1;
+.manage-sections-item:hover:not(.disabled) {
+  border-color: #2563eb;
   background: #f8fafc;
 }
 
 .manage-sections-item.selected {
-  border-color: #276ef1;
-  background: #f0f7ff;
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.manage-sections-item.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .manage-sections-checkbox {
   width: 20px;
   height: 20px;
+  border: 2px solid #d1d5db;
   border-radius: 4px;
-  border: 2px solid #cbd5e1;
-  background: #fff;
+  margin-right: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 1rem;
   flex-shrink: 0;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
 }
 
 .manage-sections-item.selected .manage-sections-checkbox {
-  background: #276ef1;
-  border-color: #276ef1;
+  background: #2563eb;
+  border-color: #2563eb;
 }
 
 .manage-sections-item-content {
@@ -157,91 +166,121 @@
 .manage-sections-item-header {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 4px;
 }
 
 .manage-sections-item-title {
-  color: #1e293b;
-  font-size: 0.95rem;
   font-weight: 500;
+  color: #333;
 }
 
 .manage-sections-core-badge {
+  background: #10b981;
+  color: white;
   font-size: 0.7rem;
-  padding: 0.15rem 0.4rem;
-  background: #dbeafe;
-  color: #1e40af;
+  padding: 2px 6px;
   border-radius: 4px;
   font-weight: 600;
-  text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
+.manage-sections-item-step {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
 .manage-sections-modal-footer {
-  padding: 1rem 1.5rem;
-  border-top: 1px solid #e2e8f0;
+  padding: 20px 24px;
+  border-top: 1px solid #eaeaea;
   display: flex;
   justify-content: flex-end;
-  gap: 0.75rem;
-  background: #f8fafc;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
+  gap: 12px;
 }
 
 .manage-sections-btn {
-  padding: 0.625rem 1.25rem;
+  padding: 10px 24px;
   border-radius: 6px;
-  font-size: 0.875rem;
   font-weight: 500;
+  font-size: 0.95rem;
   cursor: pointer;
+  transition: all 0.2s;
   border: none;
-  transition: all 0.2s ease;
-  min-width: 80px;
 }
 
 .manage-sections-btn-secondary {
-  background: #fff;
-  color: #475569;
-  border: 1px solid #cbd5e1;
+  background: #f3f4f6;
+  color: #374151;
 }
 
-.manage-sections-btn-secondary:hover {
-  background: #f1f5f9;
-  border-color: #94a3b8;
+.manage-sections-btn-secondary:hover:not(:disabled) {
+  background: #e5e7eb;
 }
 
 .manage-sections-btn-primary {
-  background: #276ef1;
+  background: #2563eb;
   color: white;
-  border: 1px solid #276ef1;
 }
 
-.manage-sections-btn-primary:hover {
-  background: #1e56d4;
-  border-color: #1e56d4;
+.manage-sections-btn-primary:hover:not(:disabled) {
+  background: #1d4ed8;
 }
 
 .manage-sections-btn:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 /* Scrollbar styling */
-.manage-sections-modal-content::-webkit-scrollbar {
+.manage-sections-list::-webkit-scrollbar {
   width: 6px;
 }
 
-.manage-sections-modal-content::-webkit-scrollbar-track {
-  background: #f1f5f9;
+.manage-sections-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
   border-radius: 3px;
 }
 
-.manage-sections-modal-content::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+.manage-sections-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
   border-radius: 3px;
 }
 
-.manage-sections-modal-content::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+.manage-sections-list::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Spinner for save button */
+.spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .manage-sections-modal-content {
+    width: 95%;
+    max-height: 85vh;
+  }
+  
+  .manage-sections-modal-header,
+  .manage-sections-modal-body,
+  .manage-sections-modal-footer {
+    padding: 16px;
+  }
+  
+  .manage-sections-btn {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
 }

@@ -320,7 +320,7 @@ exports.updateResumeSections = async (req, res) => {
   const { selectedSections } = req.body;
   const userId = req.user.id;
 
-  console.log("Updating sections for resume:", selectedSections);
+  // console.log("Updating sections for resume:", selectedSections);
 
   if (!Array.isArray(selectedSections)) {
     return res.status(400).json({ error: "selectedSections must be an array" });
@@ -365,7 +365,7 @@ exports.updateResumeSections = async (req, res) => {
     for (const [index, sectionKey] of selectedSections.entries()) {
       const title = sectionTitles[sectionKey] || sectionKey;
 
-      await conn.query(
+  const [result] = await conn.query(
         `
         INSERT INTO rb_Sections
           (resume_id, section_key, section_title, order_no, visible, is_custom)

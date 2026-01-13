@@ -1543,7 +1543,7 @@ export function DeclarationForm({
       })}
 
       {/* Legacy Extra Sections */}
-      {extraSections.map((sec) => (
+      {/* {extraSections.map((sec) => (
         <div key={sec.id} className="extra-section-card">
           <div className="extra-section-header">
             <h4>{sec.type}</h4>
@@ -1561,7 +1561,7 @@ export function DeclarationForm({
             onChange={(e) => updateExtraContent(sec.id, e.target.value)}
           />
         </div>
-      ))}
+      ))} */}
 
       {/* Add Extra Section Card (Option 5) */}
       <div className="add-section-card">
